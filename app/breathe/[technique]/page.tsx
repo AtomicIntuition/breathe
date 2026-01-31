@@ -246,8 +246,8 @@ export default function TechniquePage() {
       )}
 
       {/* Main Content */}
-      <div className="px-4 py-8 pb-16">
-        <div className="flex flex-col items-center">
+      <div className="px-4 py-8 pb-16 overflow-x-hidden">
+        <div className="flex flex-col items-center max-w-2xl mx-auto w-full">
           {/* Technique info */}
           <div className="text-center mb-6">
             <h1 className="text-2xl md:text-3xl font-bold mb-2">{technique.name}</h1>

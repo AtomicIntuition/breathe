@@ -54,6 +54,16 @@ body {
   background: var(--arctic);
 }
 
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Focus styles for accessibility */
 :focus-visible {
   outline: 2px solid var(--arctic);
