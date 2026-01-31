@@ -1,0 +1,702 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0A1628;
+  --navy-light: #0F172A;
+  --gold: #C9A227;
+  --arctic: #4A90D9;
+  --slate: #64748B;
+  --calm: #8B5CF6;
+  --energy: #F97316;
+  --sleep: #6366F1;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--navy);
+  color: white;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--navy);
+  color: white;
+}
+
+/* Remove smooth scrolling - causes issues with animated content */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slate);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--arctic);
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--arctic);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(74, 144, 217, 0.3);
+  color: white;
+}
+
+/* GPU acceleration hints for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-transform-opacity {
+  will-change: transform, opacity;
+}
+
+/* Reduced motion - comprehensive support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .breathing-circle,
+  .breathing-particles,
+  .breathing-guide-ring {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Keep essential feedback for reduced motion users */
+  .phase-indicator {
+    transition: background-color 0.2s ease !important;
+  }
+}
+
+/* Breathing circle glow effects */
+.breathing-glow {
+  box-shadow:
+    0 0 60px rgba(74, 144, 217, 0.4),
+    0 0 120px rgba(74, 144, 217, 0.2),
+    inset 0 0 60px rgba(74, 144, 217, 0.1);
+}
+
+.breathing-glow-gold {
+  box-shadow:
+    0 0 60px rgba(201, 162, 39, 0.4),
+    0 0 120px rgba(201, 162, 39, 0.2),
+    inset 0 0 60px rgba(201, 162, 39, 0.1);
+}
+
+.breathing-glow-slate {
+  box-shadow:
+    0 0 60px rgba(100, 116, 139, 0.3),
+    0 0 120px rgba(100, 116, 139, 0.15),
+    inset 0 0 60px rgba(100, 116, 139, 0.08);
+}
+
+.breathing-glow-calm {
+  box-shadow:
+    0 0 60px rgba(139, 92, 246, 0.4),
+    0 0 120px rgba(139, 92, 246, 0.2),
+    inset 0 0 60px rgba(139, 92, 246, 0.1);
+}
+
+.breathing-glow-energy {
+  box-shadow:
+    0 0 60px rgba(249, 115, 22, 0.4),
+    0 0 120px rgba(249, 115, 22, 0.2),
+    inset 0 0 60px rgba(249, 115, 22, 0.1);
+}
+
+.breathing-glow-sleep {
+  box-shadow:
+    0 0 60px rgba(99, 102, 241, 0.4),
+    0 0 120px rgba(99, 102, 241, 0.2),
+    inset 0 0 60px rgba(99, 102, 241, 0.1);
+}
+
+/* Pulsing glow animation */
+@keyframes pulsingGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px currentColor);
+    opacity: 0.8;
+  }
+  50% {
+    filter: drop-shadow(0 0 40px currentColor);
+    opacity: 1;
+  }
+}
+
+.pulsing-glow {
+  animation: pulsingGlow 2s ease-in-out infinite;
+}
+
+/* Ripple effect for phase transitions */
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  animation: rippleExpand 1s ease-out forwards;
+}
+
+/* Shimmer effect for hold phases */
+@keyframes shimmerEffect {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerEffect 2s ease-in-out infinite;
+}
+
+/* Button glow effect */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--gold), var(--arctic), var(--gold));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-glow:hover::before {
+  opacity: 1;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #fff 0%, var(--arctic) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Phase colors */
+.phase-inhale {
+  --phase-color: var(--arctic);
+}
+
+.phase-hold {
+  --phase-color: var(--gold);
+}
+
+.phase-exhale {
+  --phase-color: var(--slate);
+}
+
+.phase-holdAfterExhale {
+  --phase-color: var(--gold);
+}
+
+/* Particle styles */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--arctic);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.particle-inhale {
+  animation: particleMoveIn 2s ease-out forwards;
+}
+
+.particle-exhale {
+  animation: particleMoveOut 2s ease-out forwards;
+}
+
+@keyframes particleMoveIn {
+  0% {
+    opacity: 0;
+    transform: translate(var(--start-x), var(--start-y)) scale(0.5);
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+}
+
+@keyframes particleMoveOut {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--end-x), var(--end-y)) scale(0.5);
+  }
+}
+
+/* Confetti animation */
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall 3s ease-out forwards;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Progress ring stroke animation */
+.progress-ring-animated {
+  transition: stroke-dashoffset 0.1s ease-out;
+}
+
+/* Touch target minimum size for accessibility */
+.touch-target {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* PWA splash styling */
+@media all and (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Typography utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Number animation for countdown */
+.countdown-number {
+  font-variant-numeric: tabular-nums;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+.countdown-number-animate {
+  animation: numberPop 0.3s ease-out;
+}
+
+@keyframes numberPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Smooth spring animations for UI elements */
+.spring-transition {
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Body guidance text animation */
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.body-guidance {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+/* Quiet mode - minimal UI */
+.quiet-mode {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.quiet-mode:hover {
+  opacity: 1;
+}
+
+/* Technique-specific theme colors */
+.theme-box-breathing {
+  --theme-primary: var(--arctic);
+  --theme-glow: rgba(74, 144, 217, 0.4);
+}
+
+.theme-tactical-breathing {
+  --theme-primary: var(--gold);
+  --theme-glow: rgba(201, 162, 39, 0.4);
+}
+
+.theme-physiological-sigh {
+  --theme-primary: var(--arctic);
+  --theme-glow: rgba(74, 144, 217, 0.4);
+}
+
+.theme-4-7-8-breathing {
+  --theme-primary: var(--sleep);
+  --theme-glow: rgba(99, 102, 241, 0.4);
+}
+
+.theme-energizing-breath {
+  --theme-primary: var(--energy);
+  --theme-glow: rgba(249, 115, 22, 0.4);
+}
+
+/* Box shape for box breathing visualization */
+.box-breathing-shape {
+  position: relative;
+}
+
+.box-breathing-shape::before {
+  content: '';
+  position: absolute;
+  inset: 20%;
+  border: 2px dashed rgba(74, 144, 217, 0.3);
+  border-radius: 8px;
+}
+
+/* Success celebration overlay */
+.celebration-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
+}
+
+/* ============================================
+   PREMIUM ANIMATION ENHANCEMENTS
+   ============================================ */
+
+/* Organic breathing feel - subtle easing variations */
+.breathing-circle {
+  transform-origin: center center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth gradient transitions */
+.breathing-circle,
+.breathing-circle * {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glow pulse animation for hold phases */
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 25px currentColor);
+  }
+}
+
+.glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Ambient float animation */
+@keyframes ambientFloat {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-3px) translateX(2px);
+  }
+  50% {
+    transform: translateY(-1px) translateX(-2px);
+  }
+  75% {
+    transform: translateY(-4px) translateX(1px);
+  }
+}
+
+.ambient-float {
+  animation: ambientFloat 6s ease-in-out infinite;
+}
+
+/* Particle trail effect */
+@keyframes particleTrail {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+/* Energy core pulse */
+@keyframes energyCore {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.8;
+  }
+}
+
+.energy-core {
+  animation: energyCore 2.5s ease-in-out infinite;
+}
+
+/* Rotating ring animation */
+@keyframes rotateRing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-ring {
+  animation: rotateRing 20s linear infinite;
+}
+
+/* Breathing rhythm indicator */
+@keyframes breathingRhythm {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
+
+/* Smooth text transitions */
+.instruction-text {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Number counter animation enhancement */
+@keyframes numberEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.number-enter {
+  animation: numberEnter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Subtle shimmer effect */
+@keyframes subtleShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.subtle-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: subtleShimmer 3s ease-in-out infinite;
+}
+
+/* Ripple expansion animation */
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.ripple-expand {
+  animation: rippleExpand 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Phase transition glow */
+@keyframes phaseGlow {
+  0% {
+    box-shadow: 0 0 20px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 40px currentColor, 0 0 60px currentColor;
+  }
+  100% {
+    box-shadow: 0 0 20px currentColor;
+  }
+}
+
+/* Smooth scale transitions for breathing */
+.breathing-scale {
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+/* Hardware acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Prevent text selection during breathing */
+.breathing-session {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Smooth opacity transitions */
+.fade-transition {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Premium button hover effect */
+.premium-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.premium-btn:hover::after {
+  transform: translateX(100%);
+}
+
+/* Ambient background animation */
+@keyframes ambientBackground {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Meditation focus mode - dims everything except the circle */
+.focus-mode .non-essential {
+  opacity: 0.3;
+  transition: opacity 0.5s ease;
+}
+
+.focus-mode:hover .non-essential {
+  opacity: 1;
+}
