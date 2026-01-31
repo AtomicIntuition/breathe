@@ -1259,19 +1259,19 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
   ]
 
   return (
-    <div className="w-full max-w-lg mx-auto mb-6 px-1 overflow-hidden">
+    <div className="w-full max-w-md mx-auto mb-6 overflow-hidden box-border">
       {/* Header Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between px-4 py-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group border border-white/10"
+        className="w-full flex items-center justify-between px-3 py-3 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group border border-white/10 box-border"
       >
-        <div className="flex items-center gap-3 min-w-0 flex-1">
+        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
           <div className="p-2 rounded-xl bg-gold/20 flex-shrink-0">
-            <Lightbulb className="w-5 h-5 text-gold" />
+            <Lightbulb className="w-4 h-4 text-gold" />
           </div>
-          <div className="text-left min-w-0">
-            <span className="text-sm font-semibold text-white block">How to Practice</span>
-            <p className="text-xs text-slate-light truncate">Complete guide & expert tips</p>
+          <div className="text-left min-w-0 overflow-hidden">
+            <span className="text-sm font-semibold text-white block truncate">How to Practice</span>
+            <p className="text-xs text-slate-light truncate">Complete guide & tips</p>
           </div>
         </div>
         <motion.div
@@ -1290,46 +1290,45 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
+            className="overflow-hidden w-full"
           >
-            <div className="pt-4 space-y-4 overflow-hidden">
+            <div className="pt-3 space-y-3 overflow-hidden w-full box-border">
               {/* Quick Stats Bar */}
-              <div className="flex flex-wrap items-center justify-center gap-3 px-3 py-3 rounded-xl bg-white/5 text-sm">
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-slate-light flex-shrink-0" />
-                  <span className="text-white font-medium text-xs">{formatDuration(totalDuration)}</span>
+              <div className="flex flex-wrap items-center justify-center gap-2 px-2 py-2 rounded-xl bg-white/5 text-xs w-full box-border">
+                <div className="flex items-center gap-1">
+                  <Clock className="w-3 h-3 text-slate-light flex-shrink-0" />
+                  <span className="text-white font-medium">{formatDuration(totalDuration)}</span>
                 </div>
-                <div className="h-3 w-px bg-white/20 hidden xs:block" />
-                <div className="text-slate-light text-xs">
+                <span className="text-white/30">•</span>
+                <div className="text-slate-light">
                   <span className="text-white font-medium">{cycles}</span> cycles
                 </div>
-                <div className="h-3 w-px bg-white/20 hidden xs:block" />
-                <div className="text-slate-light font-mono text-xs">{technique.pattern}</div>
+                <span className="text-white/30">•</span>
+                <div className="text-slate-light font-mono">{technique.pattern}</div>
               </div>
 
               {/* Overview */}
-              <div className="px-0.5">
-                <p className="text-xs text-slate-light leading-relaxed break-words">
+              <div className="w-full overflow-hidden">
+                <p className="text-xs text-slate-light leading-relaxed break-words whitespace-normal" style={{ wordBreak: 'break-word' }}>
                   {guide.overview}
                 </p>
               </div>
 
               {/* Section Tabs */}
-              <div className="-mx-1 px-1">
-                <div className="flex gap-1 p-1 rounded-xl bg-white/5 overflow-x-auto scrollbar-hide">
+              <div className="w-full overflow-hidden">
+                <div className="flex gap-0.5 p-1 rounded-xl bg-white/5 overflow-x-auto scrollbar-hide w-full">
                   {sections.map(({ id, label, icon: Icon }) => (
                     <button
                       key={id}
                       onClick={() => setActiveSection(id)}
-                      className={`flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex-shrink-0 ${
+                      className={`flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex-1 min-w-0 ${
                         activeSection === id
                           ? 'bg-white/10 text-white'
                           : 'text-slate-light hover:text-white hover:bg-white/5'
                       }`}
                     >
-                      <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span className="hidden xs:inline">{label}</span>
-                      <span className="xs:hidden">{label.slice(0, 3)}</span>
+                      <Icon className="w-3 h-3 flex-shrink-0" />
+                      <span className="hidden sm:inline text-xs">{label}</span>
                     </button>
                   ))}
                 </div>
@@ -1343,33 +1342,33 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="min-h-[200px]"
+                  className="min-h-[180px] w-full overflow-hidden"
                 >
                   {activeSection === 'steps' && (
-                    <div className="space-y-3">
+                    <div className="space-y-2 w-full">
                       {guide.steps.map((step, index) => (
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="flex gap-3 p-3 rounded-xl bg-white/5 overflow-hidden"
+                          transition={{ delay: index * 0.05 }}
+                          className="flex gap-2 p-2 rounded-xl bg-white/5 w-full overflow-hidden"
                         >
-                          <div className="flex-shrink-0 w-7 h-7 rounded-full bg-arctic/20 flex items-center justify-center">
+                          <div className="flex-shrink-0 w-6 h-6 rounded-full bg-arctic/20 flex items-center justify-center">
                             <span className="text-xs font-bold text-arctic">{index + 1}</span>
                           </div>
                           <div className="flex-1 min-w-0 overflow-hidden">
-                            <div className="flex flex-wrap items-center gap-1.5 mb-1">
-                              <h4 className="font-semibold text-white text-sm break-words">
+                            <div className="flex flex-wrap items-center gap-1 mb-0.5">
+                              <h4 className="font-semibold text-white text-xs" style={{ wordBreak: 'break-word' }}>
                                 {step.instruction}
                               </h4>
                               {step.duration && (
-                                <span className="text-xs px-1.5 py-0.5 rounded-full bg-arctic/20 text-arctic font-mono whitespace-nowrap flex-shrink-0">
+                                <span className="text-[10px] px-1 py-0.5 rounded-full bg-arctic/20 text-arctic font-mono whitespace-nowrap flex-shrink-0">
                                   {step.duration}
                                 </span>
                               )}
                             </div>
-                            <p className="text-xs text-slate-light leading-relaxed break-words">
+                            <p className="text-[11px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>
                               {step.detail}
                             </p>
                           </div>
@@ -1379,34 +1378,34 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
                   )}
 
                   {activeSection === 'body' && (
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-xl bg-white/5">
-                        <h4 className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
-                          <Shield className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <div className="space-y-2 w-full">
+                      <div className="p-2 rounded-xl bg-white/5 w-full overflow-hidden">
+                        <h4 className="font-semibold text-white text-xs mb-1 flex items-center gap-1">
+                          <Shield className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                           <span>Primary Position</span>
                         </h4>
-                        <p className="text-xs text-slate-light leading-relaxed break-words">{guide.bodyPosition.primary}</p>
+                        <p className="text-[11px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>{guide.bodyPosition.primary}</p>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-white/5">
-                        <h4 className="font-semibold text-white text-sm mb-2">Alternatives</h4>
-                        <ul className="space-y-1.5">
+                      <div className="p-2 rounded-xl bg-white/5 w-full overflow-hidden">
+                        <h4 className="font-semibold text-white text-xs mb-1">Alternatives</h4>
+                        <ul className="space-y-1">
                           {guide.bodyPosition.alternatives.map((alt, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-slate-light">
-                              <span className="text-arctic mt-0.5 flex-shrink-0">•</span>
-                              <span className="break-words">{alt}</span>
+                            <li key={i} className="flex items-start gap-1 text-[11px] text-slate-light">
+                              <span className="text-arctic flex-shrink-0">•</span>
+                              <span style={{ wordBreak: 'break-word' }}>{alt}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-white/5">
-                        <h4 className="font-semibold text-white text-sm mb-2">Position Tips</h4>
-                        <ul className="space-y-1.5">
+                      <div className="p-2 rounded-xl bg-white/5 w-full overflow-hidden">
+                        <h4 className="font-semibold text-white text-xs mb-1">Position Tips</h4>
+                        <ul className="space-y-1">
                           {guide.bodyPosition.tips.map((tip, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-slate-light">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                              <span className="break-words">{tip}</span>
+                            <li key={i} className="flex items-start gap-1 text-[11px] text-slate-light">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-400 flex-shrink-0 mt-0.5" />
+                              <span style={{ wordBreak: 'break-word' }}>{tip}</span>
                             </li>
                           ))}
                         </ul>
@@ -1415,81 +1414,81 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
                   )}
 
                   {activeSection === 'tips' && (
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-xl bg-gold/10 border border-gold/20">
-                        <h4 className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
-                          <Star className="w-4 h-4 text-gold flex-shrink-0" />
+                    <div className="space-y-2 w-full">
+                      <div className="p-2 rounded-xl bg-gold/10 border border-gold/20 w-full overflow-hidden">
+                        <h4 className="font-semibold text-white text-xs mb-1 flex items-center gap-1">
+                          <Star className="w-3 h-3 text-gold flex-shrink-0" />
                           <span>Expert Pro Tips</span>
                         </h4>
-                        <ul className="space-y-2">
+                        <ul className="space-y-1">
                           {guide.proTips.map((tip, i) => (
                             <motion.li
                               key={i}
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: i * 0.1 }}
-                              className="flex items-start gap-2 text-xs text-slate-light"
+                              transition={{ delay: i * 0.05 }}
+                              className="flex items-start gap-1 text-[11px] text-slate-light"
                             >
                               <span className="text-gold flex-shrink-0">→</span>
-                              <span className="break-words leading-relaxed">{tip}</span>
+                              <span className="leading-relaxed" style={{ wordBreak: 'break-word' }}>{tip}</span>
                             </motion.li>
                           ))}
                         </ul>
                       </div>
 
                       {guide.expertNote && (
-                        <div className="p-3 rounded-xl bg-white/5 border-l-2 border-gold">
-                          <p className="text-xs text-slate-light italic leading-relaxed break-words">
+                        <div className="p-2 rounded-xl bg-white/5 border-l-2 border-gold w-full overflow-hidden">
+                          <p className="text-[11px] text-slate-light italic leading-relaxed" style={{ wordBreak: 'break-word' }}>
                             {guide.expertNote}
                           </p>
                         </div>
                       )}
 
-                      <div className="p-3 rounded-xl bg-white/5">
-                        <h4 className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
-                          <TrendingUp className="w-4 h-4 text-arctic flex-shrink-0" />
+                      <div className="p-2 rounded-xl bg-white/5 w-full overflow-hidden">
+                        <h4 className="font-semibold text-white text-xs mb-1 flex items-center gap-1">
+                          <TrendingUp className="w-3 h-3 text-arctic flex-shrink-0" />
                           <span>Progression</span>
                         </h4>
-                        <p className="text-xs text-slate-light leading-relaxed break-words">{guide.progression}</p>
+                        <p className="text-[11px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>{guide.progression}</p>
                       </div>
                     </div>
                   )}
 
                   {activeSection === 'science' && (
-                    <div className="space-y-3">
-                      <div className="p-3 rounded-xl bg-white/5">
-                        <h4 className="font-semibold text-white text-sm mb-2 flex items-center gap-2">
-                          <Brain className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                    <div className="space-y-2 w-full">
+                      <div className="p-2 rounded-xl bg-white/5 w-full overflow-hidden">
+                        <h4 className="font-semibold text-white text-xs mb-1 flex items-center gap-1">
+                          <Brain className="w-3 h-3 text-purple-400 flex-shrink-0" />
                           <span>The Science</span>
                         </h4>
-                        <p className="text-xs text-slate-light leading-relaxed break-words">
+                        <p className="text-[11px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>
                           {guide.science}
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                          <h4 className="font-semibold text-white text-xs mb-2 flex items-center gap-1">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <div className="space-y-2 w-full">
+                        <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 w-full overflow-hidden">
+                          <h4 className="font-semibold text-white text-[11px] mb-1 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                             <span>When to Use</span>
                           </h4>
-                          <ul className="space-y-1">
+                          <ul className="space-y-0.5">
                             {guide.whenToUse.slice(0, 3).map((use, i) => (
-                              <li key={i} className="text-xs text-slate-light break-words leading-relaxed">
+                              <li key={i} className="text-[10px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>
                                 • {use}
                               </li>
                             ))}
                           </ul>
                         </div>
 
-                        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20">
-                          <h4 className="font-semibold text-white text-xs mb-2 flex items-center gap-1">
-                            <AlertTriangle className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
+                        <div className="p-2 rounded-xl bg-red-500/10 border border-red-500/20 w-full overflow-hidden">
+                          <h4 className="font-semibold text-white text-[11px] mb-1 flex items-center gap-1">
+                            <AlertTriangle className="w-3 h-3 text-red-400 flex-shrink-0" />
                             <span>Avoid When</span>
                           </h4>
-                          <ul className="space-y-1">
+                          <ul className="space-y-0.5">
                             {guide.whenToAvoid.slice(0, 3).map((avoid, i) => (
-                              <li key={i} className="text-xs text-slate-light break-words leading-relaxed">
+                              <li key={i} className="text-[10px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>
                                 • {avoid}
                               </li>
                             ))}
@@ -1497,8 +1496,8 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
                         </div>
                       </div>
 
-                      <div className="p-2 rounded-xl bg-white/5 text-center">
-                        <p className="text-xs text-slate break-words">
+                      <div className="p-1.5 rounded-xl bg-white/5 text-center w-full overflow-hidden">
+                        <p className="text-[10px] text-slate" style={{ wordBreak: 'break-word' }}>
                           Source: {technique.source}
                         </p>
                       </div>
@@ -1506,26 +1505,26 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
                   )}
 
                   {activeSection === 'mistakes' && (
-                    <div className="space-y-3">
+                    <div className="space-y-2 w-full">
                       {guide.commonMistakes.map((item, i) => (
                         <motion.div
                           key={i}
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="p-3 rounded-xl bg-white/5 overflow-hidden"
+                          transition={{ delay: i * 0.05 }}
+                          className="p-2 rounded-xl bg-white/5 w-full overflow-hidden"
                         >
-                          <div className="flex items-start gap-2 mb-2">
-                            <div className="p-1 rounded-lg bg-red-500/20 flex-shrink-0">
-                              <AlertTriangle className="w-3 h-3 text-red-400" />
+                          <div className="flex items-start gap-1.5 mb-1">
+                            <div className="p-0.5 rounded bg-red-500/20 flex-shrink-0">
+                              <AlertTriangle className="w-2.5 h-2.5 text-red-400" />
                             </div>
-                            <p className="text-xs font-medium text-white break-words leading-relaxed">{item.mistake}</p>
+                            <p className="text-[11px] font-medium text-white leading-relaxed" style={{ wordBreak: 'break-word' }}>{item.mistake}</p>
                           </div>
-                          <div className="flex items-start gap-2 ml-6">
-                            <div className="p-1 rounded-lg bg-emerald-500/20 flex-shrink-0">
-                              <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                          <div className="flex items-start gap-1.5 ml-4">
+                            <div className="p-0.5 rounded bg-emerald-500/20 flex-shrink-0">
+                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
                             </div>
-                            <p className="text-xs text-slate-light break-words leading-relaxed">{item.correction}</p>
+                            <p className="text-[11px] text-slate-light leading-relaxed" style={{ wordBreak: 'break-word' }}>{item.correction}</p>
                           </div>
                         </motion.div>
                       ))}
@@ -1533,20 +1532,20 @@ export function TechniqueGuide({ technique, cycles }: TechniqueGuideProps) {
                   )}
 
                   {activeSection === 'benefits' && (
-                    <div className="space-y-3">
+                    <div className="space-y-2 w-full">
                       {guide.benefits.map((item, i) => (
                         <motion.div
                           key={i}
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="p-3 rounded-xl bg-white/5 overflow-hidden"
+                          transition={{ delay: i * 0.05 }}
+                          className="p-2 rounded-xl bg-white/5 w-full overflow-hidden"
                         >
-                          <div className="flex items-start gap-2 mb-1">
-                            <Zap className="w-3.5 h-3.5 text-arctic flex-shrink-0 mt-0.5" />
-                            <h4 className="font-semibold text-white text-xs break-words">{item.benefit}</h4>
+                          <div className="flex items-start gap-1.5 mb-0.5">
+                            <Zap className="w-3 h-3 text-arctic flex-shrink-0 mt-0.5" />
+                            <h4 className="font-semibold text-white text-[11px]" style={{ wordBreak: 'break-word' }}>{item.benefit}</h4>
                           </div>
-                          <p className="text-xs text-slate-light ml-5 break-words leading-relaxed">
+                          <p className="text-[10px] text-slate-light ml-4 leading-relaxed" style={{ wordBreak: 'break-word' }}>
                             {item.explanation}
                           </p>
                         </motion.div>
