@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { BreathingTechnique, Phase } from '@/lib/techniques'
-import { playChime, playSessionComplete } from '@/lib/sounds'
+import { playChime, playSessionComplete, unlockAudio } from '@/lib/sounds'
 import { triggerHaptic } from '@/lib/haptics'
 import { useStore } from '@/store/useStore'
 
@@ -116,7 +116,7 @@ export function useBreathingSession(
     })
   }, [technique, cycles, clearTimer, totalDuration, soundEnabled, hapticEnabled])
 
-  const start = useCallback(() => {
+  const start = useCallback(async () => {
     clearTimer()
     setIsComplete(false)
     lastTickRef.current = Date.now()
@@ -130,7 +130,11 @@ export function useBreathingSession(
       totalTimeElapsed: 0,
     })
 
-    if (soundEnabled) playChime('sessionStart')
+    // Unlock audio on mobile - this MUST happen during user gesture
+    if (soundEnabled) {
+      await unlockAudio()
+      playChime('sessionStart')
+    }
     if (hapticEnabled) triggerHaptic('phaseChange')
 
     intervalRef.current = setInterval(tick, 50) // 20fps for smooth animation

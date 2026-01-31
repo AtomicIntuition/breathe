@@ -1,11 +1,65 @@
 // Audio context for generating tones
 let audioContext: AudioContext | null = null
+let isAudioUnlocked = false
 
 function getAudioContext(): AudioContext {
   if (!audioContext && typeof window !== 'undefined') {
     audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
   }
   return audioContext!
+}
+
+// Unlock audio for iOS/mobile browsers - must be called during user gesture
+export function unlockAudio(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (isAudioUnlocked) {
+      resolve(true)
+      return
+    }
+
+    if (typeof window === 'undefined') {
+      resolve(false)
+      return
+    }
+
+    try {
+      const ctx = getAudioContext()
+
+      // Resume context if suspended
+      if (ctx.state === 'suspended') {
+        ctx.resume().then(() => {
+          // Play a silent buffer to unlock audio on iOS
+          const buffer = ctx.createBuffer(1, 1, 22050)
+          const source = ctx.createBufferSource()
+          source.buffer = buffer
+          source.connect(ctx.destination)
+          source.start(0)
+
+          isAudioUnlocked = true
+          resolve(true)
+        }).catch(() => {
+          resolve(false)
+        })
+      } else {
+        // Play silent buffer anyway for iOS
+        const buffer = ctx.createBuffer(1, 1, 22050)
+        const source = ctx.createBufferSource()
+        source.buffer = buffer
+        source.connect(ctx.destination)
+        source.start(0)
+
+        isAudioUnlocked = true
+        resolve(true)
+      }
+    } catch {
+      resolve(false)
+    }
+  })
+}
+
+// Check if audio is available and unlocked
+export function isAudioAvailable(): boolean {
+  return isAudioUnlocked && audioContext !== null && audioContext.state === 'running'
 }
 
 type ChimeType = 'phaseChange' | 'sessionStart' | 'sessionComplete' | 'inhaleStart' | 'exhaleStart' | 'holdStart'
@@ -70,14 +124,19 @@ const chimeConfigs: Record<ChimeType, ChimeConfig> = {
   },
 }
 
-export function playChime(type: ChimeType): void {
+export async function playChime(type: ChimeType): Promise<void> {
   if (typeof window === 'undefined') return
 
   try {
     const ctx = getAudioContext()
+
+    // Ensure audio is unlocked and context is running
     if (ctx.state === 'suspended') {
-      ctx.resume()
+      await ctx.resume()
     }
+
+    // If still not running, audio isn't available
+    if (ctx.state !== 'running') return
 
     const config = chimeConfigs[type]
     const oscillator = ctx.createOscillator()
@@ -124,14 +183,17 @@ export function playPhaseChime(phase: 'inhale' | 'hold' | 'exhale' | 'holdAfterE
   }
 }
 
-export function playSessionComplete(): void {
+export async function playSessionComplete(): Promise<void> {
   if (typeof window === 'undefined') return
 
   try {
     const ctx = getAudioContext()
+
     if (ctx.state === 'suspended') {
-      ctx.resume()
+      await ctx.resume()
     }
+
+    if (ctx.state !== 'running') return
 
     // Play a pleasant ascending chord (C major arpeggio)
     const frequencies = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
@@ -224,9 +286,9 @@ export function getVolume(): number {
   return globalVolume
 }
 
-export function initAudio(): void {
-  // Initialize audio context on user interaction
-  if (typeof window !== 'undefined') {
-    getAudioContext()
-  }
+export async function initAudio(): Promise<boolean> {
+  // Initialize and unlock audio context on user interaction
+  // This MUST be called during a user gesture (click/touch)
+  if (typeof window === 'undefined') return false
+  return unlockAudio()
 }
