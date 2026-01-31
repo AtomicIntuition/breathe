@@ -124,19 +124,16 @@ const chimeConfigs: Record<ChimeType, ChimeConfig> = {
   },
 }
 
-export async function playChime(type: ChimeType): Promise<void> {
+export function playChime(type: ChimeType): void {
   if (typeof window === 'undefined') return
 
   try {
     const ctx = getAudioContext()
 
-    // Ensure audio is unlocked and context is running
+    // Try to resume if suspended (don't block on it)
     if (ctx.state === 'suspended') {
-      await ctx.resume()
+      ctx.resume()
     }
-
-    // If still not running, audio isn't available
-    if (ctx.state !== 'running') return
 
     const config = chimeConfigs[type]
     const oscillator = ctx.createOscillator()
@@ -183,17 +180,16 @@ export function playPhaseChime(phase: 'inhale' | 'hold' | 'exhale' | 'holdAfterE
   }
 }
 
-export async function playSessionComplete(): Promise<void> {
+export function playSessionComplete(): void {
   if (typeof window === 'undefined') return
 
   try {
     const ctx = getAudioContext()
 
+    // Try to resume if suspended
     if (ctx.state === 'suspended') {
-      await ctx.resume()
+      ctx.resume()
     }
-
-    if (ctx.state !== 'running') return
 
     // Play a pleasant ascending chord (C major arpeggio)
     const frequencies = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
@@ -286,9 +282,9 @@ export function getVolume(): number {
   return globalVolume
 }
 
-export async function initAudio(): Promise<boolean> {
+export function initAudio(): void {
   // Initialize and unlock audio context on user interaction
   // This MUST be called during a user gesture (click/touch)
-  if (typeof window === 'undefined') return false
-  return unlockAudio()
+  if (typeof window === 'undefined') return
+  unlockAudio()
 }

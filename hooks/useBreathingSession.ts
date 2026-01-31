@@ -116,7 +116,7 @@ export function useBreathingSession(
     })
   }, [technique, cycles, clearTimer, totalDuration, soundEnabled, hapticEnabled])
 
-  const start = useCallback(async () => {
+  const start = useCallback(() => {
     clearTimer()
     setIsComplete(false)
     lastTickRef.current = Date.now()
@@ -132,7 +132,7 @@ export function useBreathingSession(
 
     // Unlock audio on mobile - this MUST happen during user gesture
     if (soundEnabled) {
-      await unlockAudio()
+      unlockAudio() // Unlock first (for mobile)
       playChime('sessionStart')
     }
     if (hapticEnabled) triggerHaptic('phaseChange')
