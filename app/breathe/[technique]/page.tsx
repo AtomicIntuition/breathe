@@ -17,7 +17,7 @@ import { getTechniqueById, calculateSessionDuration } from '@/lib/techniques'
 import { useBreathingSession } from '@/hooks/useBreathingSession'
 import { useStore } from '@/store/useStore'
 import { addSessionRecord, updateStreak, setLastTechnique } from '@/lib/storage'
-import { unlockAudio } from '@/lib/sounds'
+import { forceUnlock } from '@/lib/sounds'
 
 export default function TechniquePage() {
   const params = useParams()
@@ -51,7 +51,7 @@ export default function TechniquePage() {
   // Unlock audio on first user interaction (mobile browsers require this)
   useEffect(() => {
     const handleInteraction = () => {
-      unlockAudio()
+      forceUnlock() // Synchronous unlock during user gesture
       // Remove listeners after first interaction
       document.removeEventListener('touchstart', handleInteraction)
       document.removeEventListener('click', handleInteraction)

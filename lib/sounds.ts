@@ -1,6 +1,7 @@
 // Audio context for generating tones
 let audioContext: AudioContext | null = null
 let isAudioUnlocked = false
+let unlockAttempted = false
 
 function getAudioContext(): AudioContext {
   if (!audioContext && typeof window !== 'undefined') {
@@ -9,10 +10,38 @@ function getAudioContext(): AudioContext {
   return audioContext!
 }
 
+// Synchronous unlock attempt - MUST be called during user gesture
+// This is the key for iOS Safari: resume() must start during the gesture
+function tryUnlockSync(): void {
+  if (typeof window === 'undefined') return
+
+  try {
+    const ctx = getAudioContext()
+
+    // Start resume immediately during user gesture
+    if (ctx.state === 'suspended') {
+      // Don't await - just start the resume process during gesture
+      ctx.resume()
+    }
+
+    // Play silent buffer immediately during gesture (iOS requirement)
+    const buffer = ctx.createBuffer(1, 1, 22050)
+    const source = ctx.createBufferSource()
+    source.buffer = buffer
+    source.connect(ctx.destination)
+    source.start(0)
+
+    isAudioUnlocked = true
+    unlockAttempted = true
+  } catch {
+    // Silent fail
+  }
+}
+
 // Unlock audio for iOS/mobile browsers - must be called during user gesture
 export function unlockAudio(): Promise<boolean> {
   return new Promise((resolve) => {
-    if (isAudioUnlocked) {
+    if (isAudioUnlocked && audioContext?.state === 'running') {
       resolve(true)
       return
     }
@@ -22,39 +51,39 @@ export function unlockAudio(): Promise<boolean> {
       return
     }
 
-    try {
-      const ctx = getAudioContext()
+    // Do the sync unlock first (critical for iOS)
+    tryUnlockSync()
 
-      // Resume context if suspended
-      if (ctx.state === 'suspended') {
-        ctx.resume().then(() => {
-          // Play a silent buffer to unlock audio on iOS
-          const buffer = ctx.createBuffer(1, 1, 22050)
-          const source = ctx.createBufferSource()
-          source.buffer = buffer
-          source.connect(ctx.destination)
-          source.start(0)
+    // Then wait a brief moment for context to fully resume
+    const ctx = getAudioContext()
+    if (ctx.state === 'running') {
+      resolve(true)
+      return
+    }
 
-          isAudioUnlocked = true
-          resolve(true)
-        }).catch(() => {
-          resolve(false)
-        })
-      } else {
-        // Play silent buffer anyway for iOS
-        const buffer = ctx.createBuffer(1, 1, 22050)
-        const source = ctx.createBufferSource()
-        source.buffer = buffer
-        source.connect(ctx.destination)
-        source.start(0)
-
+    // Wait for resume to complete
+    const checkState = () => {
+      if (ctx.state === 'running') {
         isAudioUnlocked = true
         resolve(true)
+      } else if (ctx.state === 'suspended') {
+        ctx.resume().then(() => {
+          isAudioUnlocked = true
+          resolve(true)
+        }).catch(() => resolve(false))
+      } else {
+        resolve(false)
       }
-    } catch {
-      resolve(false)
     }
+
+    // Give iOS a moment to process
+    setTimeout(checkState, 50)
   })
+}
+
+// Force unlock - call this synchronously during button clicks
+export function forceUnlock(): void {
+  tryUnlockSync()
 }
 
 // Check if audio is available and unlocked
@@ -130,33 +159,56 @@ export function playChime(type: ChimeType): void {
   try {
     const ctx = getAudioContext()
 
-    // Try to resume if suspended (don't block on it)
+    // Try to resume if suspended
     if (ctx.state === 'suspended') {
       ctx.resume()
+      // On mobile, if not unlocked yet, try the sync unlock
+      if (!isAudioUnlocked) {
+        tryUnlockSync()
+      }
     }
 
-    const config = chimeConfigs[type]
-    const oscillator = ctx.createOscillator()
-    const gainNode = ctx.createGain()
+    // Schedule the actual sound playback
+    const playSound = () => {
+      try {
+        const config = chimeConfigs[type]
+        const oscillator = ctx.createOscillator()
+        const gainNode = ctx.createGain()
 
-    oscillator.connect(gainNode)
-    gainNode.connect(ctx.destination)
+        oscillator.connect(gainNode)
+        gainNode.connect(ctx.destination)
 
-    oscillator.type = config.type
-    oscillator.frequency.setValueAtTime(config.frequency, ctx.currentTime)
+        oscillator.type = config.type
+        oscillator.frequency.setValueAtTime(config.frequency, ctx.currentTime)
 
-    const attack = config.attack ?? 0.01
-    const release = config.release ?? config.duration * 0.7
-    const volume = config.volume ?? 0.3
+        const attack = config.attack ?? 0.01
+        const release = config.release ?? config.duration * 0.7
+        const volume = config.volume ?? 0.3
 
-    // Smooth envelope for less abrupt sounds
-    gainNode.gain.setValueAtTime(0, ctx.currentTime)
-    gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + attack)
-    gainNode.gain.setValueAtTime(volume, ctx.currentTime + config.duration - release)
-    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + config.duration)
+        // Smooth envelope for less abrupt sounds
+        gainNode.gain.setValueAtTime(0, ctx.currentTime)
+        gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + attack)
+        gainNode.gain.setValueAtTime(volume, ctx.currentTime + config.duration - release)
+        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + config.duration)
 
-    oscillator.start(ctx.currentTime)
-    oscillator.stop(ctx.currentTime + config.duration)
+        oscillator.start(ctx.currentTime)
+        oscillator.stop(ctx.currentTime + config.duration)
+      } catch {
+        // Silent fail
+      }
+    }
+
+    // If context is running, play immediately
+    if (ctx.state === 'running') {
+      playSound()
+    } else {
+      // Wait briefly for context to resume, then try to play
+      setTimeout(() => {
+        if (ctx.state === 'running') {
+          playSound()
+        }
+      }, 100)
+    }
   } catch {
     // Audio not available
   }
@@ -191,31 +243,49 @@ export function playSessionComplete(): void {
       ctx.resume()
     }
 
-    // Play a pleasant ascending chord (C major arpeggio)
-    const frequencies = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
-    const duration = 1.2
+    const playChord = () => {
+      try {
+        // Play a pleasant ascending chord (C major arpeggio)
+        const frequencies = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
+        const duration = 1.2
 
-    frequencies.forEach((freq, index) => {
-      const oscillator = ctx.createOscillator()
-      const gainNode = ctx.createGain()
+        frequencies.forEach((freq, index) => {
+          const oscillator = ctx.createOscillator()
+          const gainNode = ctx.createGain()
 
-      oscillator.connect(gainNode)
-      gainNode.connect(ctx.destination)
+          oscillator.connect(gainNode)
+          gainNode.connect(ctx.destination)
 
-      oscillator.type = 'sine'
-      oscillator.frequency.setValueAtTime(freq, ctx.currentTime)
+          oscillator.type = 'sine'
+          oscillator.frequency.setValueAtTime(freq, ctx.currentTime)
 
-      const startTime = ctx.currentTime + index * 0.1
-      const noteVolume = 0.15 - index * 0.02 // Slightly quieter for higher notes
+          const startTime = ctx.currentTime + index * 0.1
+          const noteVolume = 0.15 - index * 0.02 // Slightly quieter for higher notes
 
-      gainNode.gain.setValueAtTime(0, startTime)
-      gainNode.gain.linearRampToValueAtTime(noteVolume, startTime + 0.03)
-      gainNode.gain.setValueAtTime(noteVolume, startTime + 0.1)
-      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration)
+          gainNode.gain.setValueAtTime(0, startTime)
+          gainNode.gain.linearRampToValueAtTime(noteVolume, startTime + 0.03)
+          gainNode.gain.setValueAtTime(noteVolume, startTime + 0.1)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration)
 
-      oscillator.start(startTime)
-      oscillator.stop(startTime + duration)
-    })
+          oscillator.start(startTime)
+          oscillator.stop(startTime + duration)
+        })
+      } catch {
+        // Silent fail
+      }
+    }
+
+    // If context is running, play immediately
+    if (ctx.state === 'running') {
+      playChord()
+    } else {
+      // Wait briefly for context to resume
+      setTimeout(() => {
+        if (ctx.state === 'running') {
+          playChord()
+        }
+      }, 100)
+    }
   } catch {
     // Audio not available
   }
@@ -286,5 +356,5 @@ export function initAudio(): void {
   // Initialize and unlock audio context on user interaction
   // This MUST be called during a user gesture (click/touch)
   if (typeof window === 'undefined') return
-  unlockAudio()
+  forceUnlock()
 }

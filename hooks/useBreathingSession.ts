@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { BreathingTechnique, Phase } from '@/lib/techniques'
-import { playChime, playSessionComplete, unlockAudio } from '@/lib/sounds'
+import { playChime, playSessionComplete, forceUnlock } from '@/lib/sounds'
 import { triggerHaptic } from '@/lib/haptics'
 import { useStore } from '@/store/useStore'
 
@@ -130,10 +130,11 @@ export function useBreathingSession(
       totalTimeElapsed: 0,
     })
 
-    // Unlock audio on mobile - this MUST happen during user gesture
+    // Unlock audio on mobile - this MUST happen during user gesture (synchronously!)
     if (soundEnabled) {
-      unlockAudio() // Unlock first (for mobile)
-      playChime('sessionStart')
+      forceUnlock() // Synchronous unlock during gesture (critical for iOS)
+      // Small delay to let context resume before playing
+      setTimeout(() => playChime('sessionStart'), 50)
     }
     if (hapticEnabled) triggerHaptic('phaseChange')
 
