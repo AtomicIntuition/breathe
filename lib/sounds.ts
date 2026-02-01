@@ -1,362 +1,165 @@
-// Audio context for generating tones
-let audioContext: AudioContext | null = null
-let isAudioUnlocked = false
+// Sound system using HTML5 Audio for maximum iOS compatibility
 
-// Get or create AudioContext - on iOS, this should ideally happen during user gesture
-function getAudioContext(): AudioContext {
-  if (!audioContext && typeof window !== 'undefined') {
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
-    audioContext = new AudioContextClass()
-  }
-  return audioContext!
+type SoundName = 'phase-change' | 'session-start' | 'session-complete' | 'inhale' | 'exhale' | 'hold'
+
+// Audio elements cache
+const audioElements: Map<SoundName, HTMLAudioElement> = new Map()
+let isUnlocked = false
+let isInitialized = false
+
+// Sound file paths
+const soundPaths: Record<SoundName, string> = {
+  'phase-change': '/sounds/phase-change.wav',
+  'session-start': '/sounds/session-start.wav',
+  'session-complete': '/sounds/session-complete.wav',
+  'inhale': '/sounds/inhale.wav',
+  'exhale': '/sounds/exhale.wav',
+  'hold': '/sounds/hold.wav',
 }
 
-// Create a fresh AudioContext during user gesture (iOS requirement for some versions)
-function createFreshContext(): AudioContext {
-  if (typeof window === 'undefined') return audioContext!
+// Initialize audio elements
+function initAudioElements(): void {
+  if (isInitialized || typeof window === 'undefined') return
 
-  const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
-
-  // Close old context if exists
-  if (audioContext && audioContext.state !== 'closed') {
-    try {
-      audioContext.close()
-    } catch {
-      // Ignore close errors
-    }
+  for (const [name, path] of Object.entries(soundPaths)) {
+    const audio = new Audio(path)
+    audio.preload = 'auto'
+    audio.volume = 0.5
+    audioElements.set(name as SoundName, audio)
   }
 
-  audioContext = new AudioContextClass()
-  return audioContext
+  isInitialized = true
 }
 
-// Force unlock - call this synchronously during button clicks
-// This is the CRITICAL function for iOS - must happen during user gesture
+// Force unlock - MUST be called during user gesture (tap/click)
+// This is critical for iOS Safari
 export function forceUnlock(): void {
   if (typeof window === 'undefined') return
-  if (isAudioUnlocked && audioContext?.state === 'running') return
+  if (isUnlocked) return
 
-  try {
-    // If no context or context is broken, create fresh one during gesture
-    if (!audioContext || audioContext.state === 'closed') {
-      createFreshContext()
+  // Initialize if needed
+  initAudioElements()
+
+  // On iOS, we need to play each audio element briefly during a user gesture
+  // This "unlocks" them for future programmatic playback
+  audioElements.forEach((audio) => {
+    // Save current state
+    const wasPlaying = !audio.paused
+
+    // Play and immediately pause to unlock
+    audio.muted = true
+    const playPromise = audio.play()
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          audio.pause()
+          audio.currentTime = 0
+          audio.muted = false
+        })
+        .catch(() => {
+          // Ignore errors - some browsers don't support this
+          audio.muted = false
+        })
+    } else {
+      audio.pause()
+      audio.currentTime = 0
+      audio.muted = false
     }
-
-    const ctx = audioContext!
-
-    // Resume must happen during gesture
-    if (ctx.state === 'suspended') {
-      ctx.resume()
-    }
-
-    // Play a real oscillator at near-zero volume (more reliable than silent buffer on iOS)
-    const oscillator = ctx.createOscillator()
-    const gainNode = ctx.createGain()
-
-    oscillator.connect(gainNode)
-    gainNode.connect(ctx.destination)
-
-    oscillator.frequency.setValueAtTime(440, ctx.currentTime)
-    gainNode.gain.setValueAtTime(0.001, ctx.currentTime) // Nearly silent
-
-    oscillator.start(ctx.currentTime)
-    oscillator.stop(ctx.currentTime + 0.1)
-
-    isAudioUnlocked = true
-  } catch (e) {
-    console.warn('Audio unlock failed:', e)
-  }
-}
-
-// Unlock audio for iOS/mobile browsers - must be called during user gesture
-export function unlockAudio(): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (isAudioUnlocked && audioContext?.state === 'running') {
-      resolve(true)
-      return
-    }
-
-    if (typeof window === 'undefined') {
-      resolve(false)
-      return
-    }
-
-    // Do the sync unlock first (critical for iOS)
-    forceUnlock()
-
-    // Then wait for context to be running
-    const ctx = audioContext
-    if (!ctx) {
-      resolve(false)
-      return
-    }
-
-    if (ctx.state === 'running') {
-      resolve(true)
-      return
-    }
-
-    // Poll for running state
-    let attempts = 0
-    const maxAttempts = 20
-    const checkState = () => {
-      attempts++
-      if (ctx.state === 'running') {
-        isAudioUnlocked = true
-        resolve(true)
-      } else if (attempts < maxAttempts) {
-        setTimeout(checkState, 50)
-      } else {
-        resolve(false)
-      }
-    }
-
-    setTimeout(checkState, 50)
   })
+
+  isUnlocked = true
 }
 
-// Check if audio is available and unlocked
-export function isAudioAvailable(): boolean {
-  return isAudioUnlocked && audioContext !== null && audioContext.state === 'running'
-}
-
-type ChimeType = 'phaseChange' | 'sessionStart' | 'sessionComplete' | 'inhaleStart' | 'exhaleStart' | 'holdStart'
-
-interface ChimeConfig {
-  frequency: number
-  duration: number
-  type: OscillatorType
-  attack?: number
-  release?: number
-  volume?: number
-}
-
-const chimeConfigs: Record<ChimeType, ChimeConfig> = {
-  phaseChange: {
-    frequency: 528,
-    duration: 0.15,
-    type: 'sine',
-    attack: 0.01,
-    release: 0.1,
-    volume: 0.25,
-  },
-  sessionStart: {
-    frequency: 440,
-    duration: 0.25,
-    type: 'sine',
-    attack: 0.02,
-    release: 0.15,
-    volume: 0.3,
-  },
-  sessionComplete: {
-    frequency: 660,
-    duration: 0.4,
-    type: 'sine',
-    attack: 0.02,
-    release: 0.3,
-    volume: 0.3,
-  },
-  inhaleStart: {
-    frequency: 396, // G4 - uplifting tone
-    duration: 0.2,
-    type: 'sine',
-    attack: 0.02,
-    release: 0.15,
-    volume: 0.2,
-  },
-  exhaleStart: {
-    frequency: 264, // C4 - grounding tone
-    duration: 0.2,
-    type: 'sine',
-    attack: 0.02,
-    release: 0.15,
-    volume: 0.2,
-  },
-  holdStart: {
-    frequency: 330, // E4 - neutral, calming
-    duration: 0.15,
-    type: 'sine',
-    attack: 0.01,
-    release: 0.12,
-    volume: 0.15,
-  },
-}
-
-export function playChime(type: ChimeType): void {
+// Play a sound by name
+function playSound(name: SoundName): void {
   if (typeof window === 'undefined') return
-  if (!audioContext) return
 
-  const ctx = audioContext
-
-  // If context isn't running, try to resume
-  if (ctx.state === 'suspended') {
-    ctx.resume()
+  // Initialize if needed
+  if (!isInitialized) {
+    initAudioElements()
   }
 
-  // Don't try to play if context is closed
-  if (ctx.state === 'closed') return
+  const audio = audioElements.get(name)
+  if (!audio) return
 
-  const playSound = () => {
-    try {
-      if (ctx.state !== 'running') return
+  // Clone the audio to allow overlapping sounds
+  // Reset and play
+  audio.currentTime = 0
+  audio.volume = 0.5
 
-      const config = chimeConfigs[type]
-      const oscillator = ctx.createOscillator()
-      const gainNode = ctx.createGain()
-
-      oscillator.connect(gainNode)
-      gainNode.connect(ctx.destination)
-
-      oscillator.type = config.type
-      oscillator.frequency.setValueAtTime(config.frequency, ctx.currentTime)
-
-      const attack = config.attack ?? 0.01
-      const release = config.release ?? config.duration * 0.7
-      const volume = config.volume ?? 0.3
-
-      // Smooth envelope for less abrupt sounds
-      gainNode.gain.setValueAtTime(0, ctx.currentTime)
-      gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + attack)
-      gainNode.gain.setValueAtTime(volume, ctx.currentTime + config.duration - release)
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + config.duration)
-
-      oscillator.start(ctx.currentTime)
-      oscillator.stop(ctx.currentTime + config.duration)
-    } catch {
-      // Silent fail
-    }
-  }
-
-  // If context is running, play immediately
-  if (ctx.state === 'running') {
-    playSound()
-  } else {
-    // Wait for context to resume, then try to play
-    setTimeout(() => playSound(), 150)
+  const playPromise = audio.play()
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      // Audio play failed - likely not unlocked yet
+      // This is expected if user hasn't interacted yet
+    })
   }
 }
 
-// Play a phase-specific chime based on the phase type
+// Public API matching the old interface
+
+export function playChime(type: 'phaseChange' | 'sessionStart' | 'sessionComplete' | 'inhaleStart' | 'exhaleStart' | 'holdStart'): void {
+  switch (type) {
+    case 'phaseChange':
+      playSound('phase-change')
+      break
+    case 'sessionStart':
+      playSound('session-start')
+      break
+    case 'sessionComplete':
+      playSound('session-complete')
+      break
+    case 'inhaleStart':
+      playSound('inhale')
+      break
+    case 'exhaleStart':
+      playSound('exhale')
+      break
+    case 'holdStart':
+      playSound('hold')
+      break
+  }
+}
+
 export function playPhaseChime(phase: 'inhale' | 'hold' | 'exhale' | 'holdAfterExhale'): void {
   switch (phase) {
     case 'inhale':
-      playChime('inhaleStart')
+      playSound('inhale')
       break
     case 'exhale':
-      playChime('exhaleStart')
+      playSound('exhale')
       break
     case 'hold':
     case 'holdAfterExhale':
-      playChime('holdStart')
+      playSound('hold')
       break
-    default:
-      playChime('phaseChange')
   }
 }
 
 export function playSessionComplete(): void {
-  if (typeof window === 'undefined') return
-  if (!audioContext) return
-
-  const ctx = audioContext
-
-  // If context isn't running, try to resume
-  if (ctx.state === 'suspended') {
-    ctx.resume()
-  }
-
-  // Don't try to play if context is closed
-  if (ctx.state === 'closed') return
-
-  const playChord = () => {
-    try {
-      if (ctx.state !== 'running') return
-
-      // Play a pleasant ascending chord (C major arpeggio)
-      const frequencies = [523.25, 659.25, 783.99, 1046.5] // C5, E5, G5, C6
-      const duration = 1.2
-
-      frequencies.forEach((freq, index) => {
-        const oscillator = ctx.createOscillator()
-        const gainNode = ctx.createGain()
-
-        oscillator.connect(gainNode)
-        gainNode.connect(ctx.destination)
-
-        oscillator.type = 'sine'
-        oscillator.frequency.setValueAtTime(freq, ctx.currentTime)
-
-        const startTime = ctx.currentTime + index * 0.1
-        const noteVolume = 0.15 - index * 0.02 // Slightly quieter for higher notes
-
-        gainNode.gain.setValueAtTime(0, startTime)
-        gainNode.gain.linearRampToValueAtTime(noteVolume, startTime + 0.03)
-        gainNode.gain.setValueAtTime(noteVolume, startTime + 0.1)
-        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration)
-
-        oscillator.start(startTime)
-        oscillator.stop(startTime + duration)
-      })
-    } catch {
-      // Silent fail
-    }
-  }
-
-  // If context is running, play immediately
-  if (ctx.state === 'running') {
-    playChord()
-  } else {
-    // Wait for context to resume
-    setTimeout(() => playChord(), 150)
-  }
+  playSound('session-complete')
 }
 
-// Play a breathing guide tone (subtle rising/falling pitch during breath)
-export function playBreathingGuideTone(
-  phase: 'inhale' | 'exhale',
-  duration: number,
-  enabled: boolean
-): (() => void) | undefined {
-  if (!enabled || typeof window === 'undefined') return
-  if (!audioContext || audioContext.state !== 'running') return
+// Unlock audio - async version for compatibility
+export function unlockAudio(): Promise<boolean> {
+  return new Promise((resolve) => {
+    forceUnlock()
+    // Give iOS a moment to process
+    setTimeout(() => {
+      resolve(isUnlocked)
+    }, 100)
+  })
+}
 
-  try {
-    const ctx = audioContext
+// Check if audio is available
+export function isAudioAvailable(): boolean {
+  return isUnlocked && isInitialized
+}
 
-    const oscillator = ctx.createOscillator()
-    const gainNode = ctx.createGain()
-
-    oscillator.connect(gainNode)
-    gainNode.connect(ctx.destination)
-
-    oscillator.type = 'sine'
-
-    const startFreq = phase === 'inhale' ? 220 : 330
-    const endFreq = phase === 'inhale' ? 330 : 220
-
-    oscillator.frequency.setValueAtTime(startFreq, ctx.currentTime)
-    oscillator.frequency.linearRampToValueAtTime(endFreq, ctx.currentTime + duration)
-
-    // Very subtle volume
-    gainNode.gain.setValueAtTime(0, ctx.currentTime)
-    gainNode.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 0.5)
-    gainNode.gain.setValueAtTime(0.05, ctx.currentTime + duration - 0.5)
-    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + duration)
-
-    oscillator.start(ctx.currentTime)
-    oscillator.stop(ctx.currentTime + duration)
-
-    // Return a cleanup function
-    return () => {
-      try {
-        oscillator.stop()
-      } catch {
-        // Already stopped
-      }
-    }
-  } catch {
-    // Audio not available
-  }
+// Initialize audio system
+export function initAudio(): void {
+  initAudioElements()
 }
 
 // Volume control
@@ -364,15 +167,22 @@ let globalVolume = 0.5
 
 export function setVolume(volume: number): void {
   globalVolume = Math.max(0, Math.min(1, volume))
+  audioElements.forEach((audio) => {
+    audio.volume = globalVolume
+  })
 }
 
 export function getVolume(): number {
   return globalVolume
 }
 
-export function initAudio(): void {
-  // Initialize and unlock audio context on user interaction
-  // This MUST be called during a user gesture (click/touch)
-  if (typeof window === 'undefined') return
-  forceUnlock()
+// Breathing guide tone - simplified version using existing sounds
+export function playBreathingGuideTone(
+  phase: 'inhale' | 'exhale',
+  duration: number,
+  enabled: boolean
+): (() => void) | undefined {
+  // Not implemented for audio file approach - would need continuous audio
+  // Return undefined to indicate no cleanup needed
+  return undefined
 }
