@@ -303,6 +303,71 @@ export const techniques: BreathingTechnique[] = [
     category: 'recovery',
     difficulty: 'beginner',
   },
+
+  // ==========================================
+  // INTELLIGENCE & SPECIAL OPERATIONS
+  // ==========================================
+  {
+    id: 'gateway-process',
+    name: 'Gateway Process',
+    tagline: 'CIA Declassified',
+    description: 'From declassified CIA documents (2003). Developed at the Monroe Institute for intelligence applications. Combines controlled breathing with resonant humming to achieve "Focus 10" state—mind awake, body asleep. Used for enhanced mental clarity and expanded awareness.',
+    pattern: '4-4-8 with resonance',
+    phases: [
+      { phase: 'inhale', duration: 4, instruction: 'Deep Breath In' },
+      { phase: 'hold', duration: 4, instruction: 'Hold & Hum' },
+      { phase: 'exhale', duration: 8, instruction: 'Resonant Exhale' },
+    ],
+    purpose: 'Enhanced focus, expanded awareness, mental clarity',
+    useCase: 'Deep concentration, meditation, problem-solving, creative work',
+    source: 'CIA/Monroe Institute, declassified 2003 (Gateway Process Report)',
+    icon: 'Eye',
+    color: 'slate',
+    defaultCycles: 7,
+    category: 'focus',
+    difficulty: 'intermediate',
+  },
+  {
+    id: 'operative-calm',
+    name: 'Operative Protocol',
+    tagline: 'Field Agent Standard',
+    description: 'Three-phase breathing technique derived from declassified CIA training documents. Emphasizes the exhale and post-exhale hold phases where "best mental concentration is achieved." Designed for maintaining composure during high-pressure field operations.',
+    pattern: '3-6-3',
+    phases: [
+      { phase: 'inhale', duration: 3, instruction: 'Effortless Inhale' },
+      { phase: 'exhale', duration: 6, instruction: 'Controlled Exhale' },
+      { phase: 'holdAfterExhale', duration: 3, instruction: 'Focus Point' },
+    ],
+    purpose: 'Tactical calmness, mental concentration under pressure',
+    useCase: 'High-stakes situations, interrogation resistance, crisis management',
+    source: 'CIA declassified training documents, SERE-derived protocols',
+    icon: 'Shield',
+    color: 'slate',
+    defaultCycles: 8,
+    category: 'focus',
+    difficulty: 'intermediate',
+  },
+  {
+    id: 'sere-breathing',
+    name: 'SERE Breathing',
+    tagline: 'Survival Training',
+    description: 'Core breathing technique from Survival, Evasion, Resistance, and Escape (SERE) training. Used by military and intelligence personnel to maintain psychological resilience under extreme stress. The pattern builds stress tolerance through controlled discomfort.',
+    pattern: '4-7-8-4',
+    phases: [
+      { phase: 'inhale', duration: 4, instruction: 'Controlled Inhale' },
+      { phase: 'hold', duration: 7, instruction: 'Stress Inoculation' },
+      { phase: 'exhale', duration: 8, instruction: 'Complete Release' },
+      { phase: 'holdAfterExhale', duration: 4, instruction: 'Empty Resilience' },
+    ],
+    purpose: 'Stress inoculation, psychological resilience, composure under duress',
+    useCase: 'Extreme stress preparation, building mental toughness, crisis situations',
+    source: 'SERE Training Program, U.S. Military/Intelligence',
+    icon: 'Shield',
+    color: 'gold',
+    defaultCycles: 6,
+    category: 'focus',
+    difficulty: 'advanced',
+  },
 ]
 
 export function getTechniqueById(id: string): BreathingTechnique | undefined {

@@ -1232,6 +1232,295 @@ const techniqueGuides: Record<string, GuideContent> = {
     progression: 'Start with 10-minute sessions, progress to 20-30 minutes. Daily practice at the same time builds the skill.',
     expertNote: '"NSDR may be one of the most underutilized tools we have for restoration and learning enhancement." — Dr. Andrew Huberman, Stanford Neuroscientist',
   },
+
+  // ==========================================
+  // GATEWAY PROCESS - CIA Declassified
+  // ==========================================
+  'gateway-process': {
+    overview: 'The Gateway Process was studied by the CIA and documented in a declassified 1983 report. Developed at the Monroe Institute, it uses controlled breathing combined with resonant humming to achieve "Focus 10"—a state of consciousness where the mind remains alert while the body enters deep relaxation. Originally researched for intelligence applications including enhanced intuition and expanded awareness.',
+    steps: [
+      {
+        instruction: 'Deep breath in through nose',
+        detail: 'Fill your lungs completely from the bottom up. Feel your diaphragm expand, then your ribs, then your chest. This is a full, energizing breath.',
+        duration: '4 seconds',
+      },
+      {
+        instruction: 'Hold and create resonance',
+        detail: 'While holding, begin a low humming sound—a resonant "ommm" or "ahhh" that you can feel vibrating in your chest and head. This is the "resonant tuning" phase.',
+        duration: '4 seconds',
+      },
+      {
+        instruction: 'Resonant exhale',
+        detail: 'Continue the humming as you exhale slowly. Feel the vibration throughout your body. Let the sound fade naturally as you empty your lungs completely.',
+        duration: '8 seconds',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Lying flat on back with headphones (original protocol used Hemi-Sync audio). Arms at sides, palms up. Complete darkness preferred.',
+      alternatives: [
+        'Seated upright in a quiet, dark room',
+        'Reclined position at 30-45 degrees',
+        'Traditional meditation posture',
+      ],
+      tips: [
+        'Use headphones if following with binaural beats',
+        'Complete darkness enhances the experience',
+        'The humming should vibrate in your chest, not just your throat',
+        'Start with eyes closed and maintain soft focus on the "third eye" area',
+      ],
+    },
+    proTips: [
+      'The "resonant humming" is key—find a pitch that vibrates through your whole body',
+      'Focus on the space between your eyebrows during the hold phase',
+      'The CIA document mentions "the Energy Conversion Box"—visualize placing worries in a box before starting',
+      'Original protocol included the affirmation: "I am more than my physical body"',
+    ],
+    science: 'The CIA report describes this as achieving "hemispheric synchronization"—both brain hemispheres operating at the same frequency. The humming creates physical vibration that may stimulate the vagus nerve and alter brainwave patterns. Declassified document: CIA-RDP96-00788R001700210016-5.',
+    whenToUse: [
+      'For deep meditation and expanded awareness',
+      'Problem-solving requiring creative insights',
+      'Before intuition-requiring decisions',
+      'As a gateway to deeper contemplative practices',
+      'For mental clarity during complex analysis',
+    ],
+    whenToAvoid: [
+      'When driving or operating machinery',
+      'If you have a history of dissociative disorders (consult professional)',
+      'When you need to be immediately alert',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Humming too quietly or only in throat',
+        correction: 'The hum should resonate in your chest and head. Find the pitch that creates full-body vibration.',
+      },
+      {
+        mistake: 'Rushing through phases',
+        correction: 'This is a consciousness exploration technique. Quality and depth matter more than cycles completed.',
+      },
+      {
+        mistake: 'Expecting immediate dramatic results',
+        correction: 'The CIA study noted effects develop with practice. "Focus 10" state becomes accessible after consistent training.',
+      },
+      {
+        mistake: 'Skipping the preparation/intention phase',
+        correction: 'Set a clear intention before beginning. The original protocol emphasized mental preparation.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Enhanced mental clarity',
+        explanation: 'Hemispheric synchronization creates coherent thinking and improved focus.',
+      },
+      {
+        benefit: 'Deep relaxation with alertness',
+        explanation: '"Focus 10" state—mind awake, body asleep—allows rest without losing awareness.',
+      },
+      {
+        benefit: 'Expanded awareness',
+        explanation: 'Original research focused on accessing non-ordinary states of consciousness.',
+      },
+      {
+        benefit: 'Improved intuition',
+        explanation: 'CIA research explored this for enhanced pattern recognition and insight.',
+      },
+    ],
+    progression: 'Week 1-2: Master the resonant humming. Week 3-4: Begin recognizing the "Focus 10" state. Month 2+: Explore deeper focus levels as described in the Gateway Experience.',
+    expertNote: '"The Gateway Process is designed to bring enhanced strength, focus and coherence to the amplitude and frequency of brainwave output." — CIA Analysis and Assessment of Gateway Process, 1983',
+  },
+
+  // ==========================================
+  // OPERATIVE PROTOCOL - CIA Three-Phase
+  // ==========================================
+  'operative-calm': {
+    overview: 'Derived from declassified CIA training documents, this three-phase breathing pattern emphasizes the exhale and post-exhale hold—the phases where the documents note "best mental concentration is achieved." Used by field operatives to maintain composure during high-pressure situations where clear thinking is essential.',
+    steps: [
+      {
+        instruction: 'Effortless inhale',
+        detail: 'Let the breath come in naturally through your nose. Don\'t force fullness—about 70% capacity. The inhale should feel automatic, requiring no effort.',
+        duration: '3 seconds',
+      },
+      {
+        instruction: 'Controlled, extended exhale',
+        detail: 'This is the focus phase. Exhale slowly through nose or compressed lips. Maintain complete control. Your concentration should peak during this phase.',
+        duration: '6 seconds',
+      },
+      {
+        instruction: 'Empty hold—the focus point',
+        detail: 'Rest in emptiness without urgency. This is the moment of maximum mental clarity. Your attention is sharpest here. Don\'t strain—find stillness.',
+        duration: '3 seconds',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Seated or standing—this technique is designed for real-world operational use. Spine straight, shoulders relaxed. Eyes can be open with soft focus.',
+      alternatives: [
+        'Standing during a difficult conversation',
+        'Seated during high-stakes negotiations',
+        'Any position where you need to maintain composure',
+      ],
+      tips: [
+        'Can be done covertly with eyes open—no one needs to know',
+        'Maintain normal facial expression during practice',
+        'The technique works in any environment',
+        'Practice until it becomes your automatic stress response',
+      ],
+    },
+    proTips: [
+      'The CIA documents emphasize exhale and empty hold as the concentration phases—focus there',
+      'Practice in low-stakes situations until the pattern becomes automatic',
+      'Use the empty hold to make key observations or decisions',
+      'Can be combined with "tactical calmness"—staying present in the moment',
+    ],
+    science: 'The extended exhale activates the parasympathetic nervous system while maintaining cognitive function. The post-exhale hold creates a moment of stillness where attention can be precisely directed. This pattern reduces physiological stress responses without inducing drowsiness.',
+    whenToUse: [
+      'High-stakes negotiations or conversations',
+      'Before making critical decisions',
+      'During interrogation or intense questioning',
+      'When you need to maintain composure under scrutiny',
+      'Any moment requiring peak mental clarity under pressure',
+    ],
+    whenToAvoid: [
+      'No contraindications—designed for universal high-pressure application',
+      'Safe in any situation where you need to remain alert',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Focusing too much on the inhale',
+        correction: 'The inhale is passive. Your concentration should be on the exhale and empty hold phases.',
+      },
+      {
+        mistake: 'Making the breath visible to others',
+        correction: 'This should be covert. Practice until you can do it without anyone noticing.',
+      },
+      {
+        mistake: 'Holding tension during the empty phase',
+        correction: 'The empty hold should feel like stillness, not strain. Relax into it.',
+      },
+      {
+        mistake: 'Only using it during emergencies',
+        correction: 'Practice regularly in normal situations so it becomes your automatic response.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Covert stress management',
+        explanation: 'Can be performed without anyone knowing—essential for operational security.',
+      },
+      {
+        benefit: 'Enhanced mental clarity under pressure',
+        explanation: 'Maintains cognitive function when stress normally impairs thinking.',
+      },
+      {
+        benefit: 'Tactical composure',
+        explanation: 'Projects calm confidence even in hostile situations.',
+      },
+      {
+        benefit: 'Rapid deployment',
+        explanation: 'Works immediately—no preparation or special conditions needed.',
+      },
+    ],
+    progression: 'Master the pattern in calm conditions first. Progress to using it during mild stress, then moderate stress. Goal: automatic deployment under maximum pressure.',
+    expertNote: '"The best mental concentration is achieved while exhaling and/or during the breath retention phase after the exhalation." — Declassified CIA Training Document',
+  },
+
+  // ==========================================
+  // SERE BREATHING - Survival Training
+  // ==========================================
+  'sere-breathing': {
+    overview: 'SERE (Survival, Evasion, Resistance, Escape) breathing is the core technique taught to military and intelligence personnel preparing for extreme stress scenarios. The pattern includes an extended hold that creates controlled discomfort—this is intentional "stress inoculation" that builds psychological resilience over time.',
+    steps: [
+      {
+        instruction: 'Controlled inhale',
+        detail: 'Breathe in steadily through your nose. Full but not forced. This is preparation for the challenge ahead.',
+        duration: '4 seconds',
+      },
+      {
+        instruction: 'Stress inoculation hold',
+        detail: 'This extended hold is intentionally challenging. Stay relaxed despite discomfort. This is where resilience is built. Notice the urge to breathe without reacting.',
+        duration: '7 seconds',
+      },
+      {
+        instruction: 'Complete release',
+        detail: 'Exhale fully and slowly. Release not just air but accumulated tension. Let everything go.',
+        duration: '8 seconds',
+      },
+      {
+        instruction: 'Empty resilience',
+        detail: 'Rest in emptiness. This second challenge phase builds additional tolerance. Find calm in the discomfort.',
+        duration: '4 seconds',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Any position—SERE training emphasizes functioning under non-ideal conditions. Practice in various positions and environments.',
+      alternatives: [
+        'Seated upright (standard)',
+        'Standing (field conditions)',
+        'Uncomfortable positions (advanced stress inoculation)',
+      ],
+      tips: [
+        'The discomfort is intentional—lean into it rather than avoiding it',
+        'Practice in progressively more challenging conditions',
+        'Notice your stress response without being controlled by it',
+        'Maintain dignity and composure throughout',
+      ],
+    },
+    proTips: [
+      'The extended holds are designed to be challenging—that\'s the training effect',
+      'SERE philosophy: controlled exposure to stress builds tolerance',
+      'Use this technique during difficult situations to "normalize" the stress',
+      'Mental toughness is built through repeated voluntary discomfort',
+    ],
+    science: 'Stress inoculation training works by gradually exposing practitioners to controlled stressors, building psychological and physiological tolerance. The challenging breath holds trigger mild stress responses that, with practice, become easier to manage—transferring to better resilience under real-world pressure.',
+    whenToUse: [
+      'Building general stress resilience (daily practice)',
+      'Preparation for known upcoming challenges',
+      'During moderate stress to prevent escalation',
+      'As part of mental toughness training',
+      'Recovery from psychological stress exposure',
+    ],
+    whenToAvoid: [
+      'If you have panic disorder (consult professional first)',
+      'During active panic attack (use Physiological Sigh instead)',
+      'Cardiovascular conditions (consult physician)',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Avoiding the discomfort of the holds',
+        correction: 'The discomfort IS the training. Shortening holds reduces the resilience-building effect.',
+      },
+      {
+        mistake: 'Tensing up during challenging phases',
+        correction: 'Stay relaxed despite discomfort. Tension increases perceived difficulty.',
+      },
+      {
+        mistake: 'Only practicing when comfortable',
+        correction: 'SERE principle: train in conditions similar to operational use. Practice when tired, stressed, uncomfortable.',
+      },
+      {
+        mistake: 'Expecting immediate resilience',
+        correction: 'Stress inoculation builds over weeks and months of consistent practice.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Psychological resilience',
+        explanation: 'Builds tolerance to stress through controlled exposure—the core SERE principle.',
+      },
+      {
+        benefit: 'Composure under pressure',
+        explanation: 'Training with discomfort makes real-world stress feel more manageable.',
+      },
+      {
+        benefit: 'Panic resistance',
+        explanation: 'Familiarity with controlled discomfort reduces panic response to unexpected stress.',
+      },
+      {
+        benefit: 'Mental toughness',
+        explanation: 'Voluntary exposure to challenge builds the mindset of endurance.',
+      },
+    ],
+    progression: 'Start with comfortable hold durations and gradually extend. Goal: maintain complete calm through the challenging phases. Advanced: practice in progressively less comfortable conditions.',
+    expertNote: '"SERE training uses stress inoculation to prepare participants for these scenarios—pushing agents to their mental limits, then teaching them how to push back." — SERE Training Overview',
+  },
 }
 
 // ============================================

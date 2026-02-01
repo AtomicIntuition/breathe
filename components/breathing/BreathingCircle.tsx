@@ -264,6 +264,90 @@ const techniqueThemes: Record<string, Partial<Record<Phase, PhaseColorConfig>>> 
       gradient: ['rgba(244, 63, 94, 0.35)', 'rgba(251, 113, 133, 0.18)', 'transparent'],
     },
   },
+  // Slate theme - CIA declassified techniques (mysterious, focused)
+  'gateway-process': {
+    inhale: {
+      primary: 'rgba(100, 116, 139, 0.85)',
+      secondary: 'rgba(148, 163, 184, 0.65)',
+      glow: 'rgba(100, 116, 139, 0.4)',
+      particle: 'rgba(203, 213, 225, 0.9)',
+      gradient: ['rgba(100, 116, 139, 0.45)', 'rgba(148, 163, 184, 0.25)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(71, 85, 105, 0.85)',
+      secondary: 'rgba(100, 116, 139, 0.65)',
+      glow: 'rgba(71, 85, 105, 0.4)',
+      particle: 'rgba(203, 213, 225, 0.9)',
+      gradient: ['rgba(71, 85, 105, 0.45)', 'rgba(100, 116, 139, 0.25)', 'transparent'],
+    },
+    exhale: {
+      primary: 'rgba(51, 65, 85, 0.75)',
+      secondary: 'rgba(71, 85, 105, 0.55)',
+      glow: 'rgba(51, 65, 85, 0.35)',
+      particle: 'rgba(148, 163, 184, 0.85)',
+      gradient: ['rgba(51, 65, 85, 0.4)', 'rgba(71, 85, 105, 0.2)', 'transparent'],
+    },
+  },
+  'operative-calm': {
+    inhale: {
+      primary: 'rgba(100, 116, 139, 0.85)',
+      secondary: 'rgba(148, 163, 184, 0.65)',
+      glow: 'rgba(100, 116, 139, 0.4)',
+      particle: 'rgba(203, 213, 225, 0.9)',
+      gradient: ['rgba(100, 116, 139, 0.45)', 'rgba(148, 163, 184, 0.25)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(71, 85, 105, 0.8)',
+      secondary: 'rgba(100, 116, 139, 0.6)',
+      glow: 'rgba(71, 85, 105, 0.35)',
+      particle: 'rgba(203, 213, 225, 0.85)',
+      gradient: ['rgba(71, 85, 105, 0.4)', 'rgba(100, 116, 139, 0.2)', 'transparent'],
+    },
+    holdAfterExhale: {
+      primary: 'rgba(51, 65, 85, 0.7)',
+      secondary: 'rgba(71, 85, 105, 0.5)',
+      glow: 'rgba(51, 65, 85, 0.3)',
+      particle: 'rgba(148, 163, 184, 0.8)',
+      gradient: ['rgba(51, 65, 85, 0.35)', 'rgba(71, 85, 105, 0.18)', 'transparent'],
+    },
+    exhale: {
+      primary: 'rgba(71, 85, 105, 0.75)',
+      secondary: 'rgba(100, 116, 139, 0.55)',
+      glow: 'rgba(71, 85, 105, 0.3)',
+      particle: 'rgba(148, 163, 184, 0.85)',
+      gradient: ['rgba(71, 85, 105, 0.38)', 'rgba(100, 116, 139, 0.2)', 'transparent'],
+    },
+  },
+  'sere-breathing': {
+    inhale: {
+      primary: 'rgba(100, 116, 139, 0.85)',
+      secondary: 'rgba(148, 163, 184, 0.65)',
+      glow: 'rgba(100, 116, 139, 0.4)',
+      particle: 'rgba(203, 213, 225, 0.9)',
+      gradient: ['rgba(100, 116, 139, 0.45)', 'rgba(148, 163, 184, 0.25)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(71, 85, 105, 0.85)',
+      secondary: 'rgba(100, 116, 139, 0.65)',
+      glow: 'rgba(71, 85, 105, 0.4)',
+      particle: 'rgba(203, 213, 225, 0.9)',
+      gradient: ['rgba(71, 85, 105, 0.45)', 'rgba(100, 116, 139, 0.25)', 'transparent'],
+    },
+    holdAfterExhale: {
+      primary: 'rgba(51, 65, 85, 0.7)',
+      secondary: 'rgba(71, 85, 105, 0.5)',
+      glow: 'rgba(51, 65, 85, 0.3)',
+      particle: 'rgba(148, 163, 184, 0.8)',
+      gradient: ['rgba(51, 65, 85, 0.35)', 'rgba(71, 85, 105, 0.18)', 'transparent'],
+    },
+    exhale: {
+      primary: 'rgba(71, 85, 105, 0.75)',
+      secondary: 'rgba(100, 116, 139, 0.55)',
+      glow: 'rgba(71, 85, 105, 0.3)',
+      particle: 'rgba(148, 163, 184, 0.85)',
+      gradient: ['rgba(71, 85, 105, 0.38)', 'rgba(100, 116, 139, 0.2)', 'transparent'],
+    },
+  },
 }
 
 function getPhaseColors(techniqueId: string | undefined, phase: Phase): PhaseColorConfig {
@@ -311,6 +395,24 @@ const techniqueGuidance: Record<string, Record<Phase, string>> = {
     hold: 'Stay relaxed',
     exhale: 'Let go',
     holdAfterExhale: 'Empty stillness',
+  },
+  'gateway-process': {
+    inhale: 'Deep resonance',
+    hold: 'Hum gently',
+    exhale: 'Extended release',
+    holdAfterExhale: 'Empty stillness',
+  },
+  'operative-calm': {
+    inhale: 'Measured intake',
+    hold: 'Stay relaxed',
+    exhale: 'Double exhale',
+    holdAfterExhale: 'Focus inward',
+  },
+  'sere-breathing': {
+    inhale: 'Steady breath',
+    hold: 'Build resilience',
+    exhale: 'Controlled release',
+    holdAfterExhale: 'Mental anchor',
   },
 }
 

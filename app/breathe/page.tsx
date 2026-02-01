@@ -18,6 +18,8 @@ import {
   CloudMoon,
   Clock,
   Star,
+  Eye,
+  Shield,
 } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -41,6 +43,8 @@ const iconMap: Record<string, React.ElementType> = {
   Sparkles,
   Snowflake,
   CloudMoon,
+  Eye,
+  Shield,
 }
 
 const colorMap: Record<string, { text: string; bg: string; border: string; glow: string }> = {

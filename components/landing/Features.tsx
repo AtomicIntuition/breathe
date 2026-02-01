@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Square, Target, Zap, Moon, Flame, Heart, Waves, Battery, Sparkles, Snowflake, CloudMoon } from 'lucide-react'
+import { Square, Target, Zap, Moon, Flame, Heart, Waves, Battery, Sparkles, Snowflake, CloudMoon, Eye, Shield } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { techniques } from '@/lib/techniques'
 import Link from 'next/link'
@@ -18,6 +18,8 @@ const iconMap: Record<string, React.ElementType> = {
   Sparkles,
   Snowflake,
   CloudMoon,
+  Eye,
+  Shield,
 }
 
 const colorMap: Record<string, string> = {
