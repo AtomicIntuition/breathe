@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Play, Pause, X, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { triggerHaptic } from '@/lib/haptics'
+import { forceUnlock } from '@/lib/sounds'
 import { useStore } from '@/store/useStore'
 
 interface ControlsProps {
@@ -28,15 +29,19 @@ export function Controls({
   onStop,
   onRestart,
 }: ControlsProps) {
-  const { hapticEnabled } = useStore()
+  const { hapticEnabled, soundEnabled } = useStore()
 
-  // Handle button press with haptic feedback
-  const handlePress = useCallback((action: () => void) => {
+  // Handle button press with haptic feedback and audio unlock
+  const handlePress = useCallback((action: () => void, unlockAudio = false) => {
+    // CRITICAL: Unlock audio during the actual button tap (iOS requirement)
+    if (unlockAudio && soundEnabled) {
+      forceUnlock()
+    }
     if (hapticEnabled) {
       triggerHaptic('phaseChange')
     }
     action()
-  }, [hapticEnabled])
+  }, [hapticEnabled, soundEnabled])
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -51,9 +56,9 @@ export function Controls({
         case 'Space':
           e.preventDefault()
           if (isComplete) {
-            handlePress(onRestart)
+            handlePress(onRestart, true)
           } else if (!isActive) {
-            handlePress(onStart)
+            handlePress(onStart, true)
           } else if (isPaused) {
             handlePress(onResume)
           } else {
@@ -68,7 +73,7 @@ export function Controls({
         case 'r':
         case 'R':
           if (isComplete || !isActive) {
-            handlePress(onRestart)
+            handlePress(onRestart, true)
           }
           break
       }
@@ -89,7 +94,7 @@ export function Controls({
         <Button
           variant="primary"
           size="lg"
-          onClick={() => handlePress(onRestart)}
+          onClick={() => handlePress(onRestart, true)}
           glow
           className="gap-2 touch-target spring-transition"
         >
@@ -113,7 +118,7 @@ export function Controls({
         <Button
           variant="primary"
           size="lg"
-          onClick={() => handlePress(onStart)}
+          onClick={() => handlePress(onStart, true)}
           glow
           className="gap-2 touch-target spring-transition"
         >
