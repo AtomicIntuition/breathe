@@ -96,13 +96,13 @@ export function Controls({
           size="lg"
           onClick={() => handlePress(onRestart, true)}
           glow
-          className="gap-2 touch-target spring-transition"
+          className="gap-2.5 touch-target"
         >
           <RotateCcw className="w-5 h-5" />
           Start Again
         </Button>
-        <p className="text-xs text-slate-light hidden sm:block">
-          Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-xs">Space</kbd>
+        <p className="text-xs text-slate hidden sm:block">
+          Press <kbd className="px-2 py-1 rounded-md bg-white/[0.08] border border-white/[0.1] font-mono text-[11px]">Space</kbd>
         </p>
       </motion.div>
     )
@@ -111,7 +111,7 @@ export function Controls({
   if (!isActive) {
     return (
       <motion.div
-        className="flex flex-col items-center gap-3"
+        className="flex flex-col items-center gap-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -120,13 +120,13 @@ export function Controls({
           size="lg"
           onClick={() => handlePress(onStart, true)}
           glow
-          className="gap-2 touch-target spring-transition"
+          className="gap-2.5 touch-target text-lg px-10 py-4"
         >
           <Play className="w-5 h-5" />
           Begin Session
         </Button>
-        <p className="text-xs text-slate-light hidden sm:block">
-          Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-xs">Space</kbd> to start
+        <p className="text-xs text-slate hidden sm:block">
+          Press <kbd className="px-2 py-1 rounded-md bg-white/[0.08] border border-white/[0.1] font-mono text-[11px]">Space</kbd> to start
         </p>
       </motion.div>
     )
@@ -142,7 +142,7 @@ export function Controls({
         variant="secondary"
         size="lg"
         onClick={() => handlePress(isPaused ? onResume : onPause)}
-        className="gap-2 touch-target spring-transition"
+        className="gap-2.5 touch-target"
       >
         <motion.div
           key={isPaused ? 'play' : 'pause'}
@@ -163,7 +163,7 @@ export function Controls({
         variant="ghost"
         size="lg"
         onClick={() => handlePress(onStop)}
-        className="gap-2 touch-target"
+        className="gap-2.5 touch-target"
       >
         <X className="w-5 h-5" />
         End
@@ -171,7 +171,7 @@ export function Controls({
 
       {/* Keyboard hint */}
       <div className="hidden sm:flex items-center gap-2 text-xs text-slate ml-2">
-        <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-xs">Space</kbd>
+        <kbd className="px-2 py-1 rounded-md bg-white/[0.08] border border-white/[0.1] font-mono text-[11px]">Space</kbd>
         <span>to {isPaused ? 'resume' : 'pause'}</span>
       </div>
     </motion.div>

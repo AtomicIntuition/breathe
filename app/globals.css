@@ -5,12 +5,27 @@
 :root {
   --navy: #0A1628;
   --navy-light: #0F172A;
+  --navy-dark: #050B14;
   --gold: #C9A227;
+  --gold-light: #D4B84A;
   --arctic: #4A90D9;
+  --arctic-light: #6BA3E0;
   --slate: #64748B;
+  --slate-light: #94A3B8;
   --calm: #8B5CF6;
   --energy: #F97316;
   --sleep: #6366F1;
+
+  /* Premium transitions */
+  --transition-micro: 150ms ease-out;
+  --transition-ui: 200ms ease-out;
+  --transition-layout: 300ms ease-in-out;
+
+  /* Border colors */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-accent: rgba(74, 144, 217, 0.3);
 }
 
 * {
@@ -24,13 +39,19 @@ html {
   overflow-x: hidden;
   background-color: var(--navy);
   color: white;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: var(--navy);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(74, 144, 217, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-light) 50%, var(--navy) 100%);
+  background-attachment: fixed;
   color: white;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -50,22 +71,28 @@ p, span, li, h1, h2, h3, h4, h5, h6 {
 
 /* Remove smooth scrolling - causes issues with animated content */
 
-/* Custom scrollbar */
+/* Premium scrollbar - thinner and subtler */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--navy);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--slate);
-  border-radius: 4px;
+  background: rgba(100, 116, 139, 0.3);
+  border-radius: 3px;
+  transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--arctic);
+  background: rgba(100, 116, 139, 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Hide scrollbar but keep functionality */
@@ -78,8 +105,19 @@ p, span, li, h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Focus styles for accessibility */
+/* Premium focus styles for accessibility */
 :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--navy), 0 0 0 4px var(--arctic);
+  border-radius: inherit;
+}
+
+/* Fallback for elements that don't support box-shadow focus */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 2px solid var(--arctic);
   outline-offset: 2px;
 }
@@ -88,6 +126,11 @@ p, span, li, h1, h2, h3, h4, h5, h6 {
 ::selection {
   background-color: rgba(74, 144, 217, 0.3);
   color: white;
+}
+
+/* Remove default focus outline and use custom */
+*:focus {
+  outline: none;
 }
 
 /* GPU acceleration hints for animations */
@@ -244,17 +287,47 @@ p, span, li, h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
-/* Glass effect */
+/* Premium glass effect */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-default);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition-ui);
+}
+
+.glass-card:hover {
+  border-color: var(--border-hover);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #fff 0%, var(--arctic) 50%, var(--gold) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--arctic-light) 40%, var(--gold-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-subtle {
+  background: linear-gradient(135deg, #ffffff 0%, var(--slate-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

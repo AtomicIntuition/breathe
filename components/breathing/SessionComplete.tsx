@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle, RotateCcw, ArrowLeft, Share2, Flame, Clock, Wind } from 'lucide-react'
+import { CheckCircle, RotateCcw, ArrowLeft, Share2, Flame, Clock, Wind, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { BreathingTechnique, formatDuration } from '@/lib/techniques'
 import { getStreak, StreakData } from '@/lib/storage'
@@ -69,7 +69,7 @@ export function SessionComplete({
 
   // Share functionality
   const handleShare = async () => {
-    const shareText = `Just completed ${cycles} cycles of ${technique.name} (${formatDuration(Math.floor(duration))}) with BREATHE SPEC 🧘`
+    const shareText = `Just completed ${cycles} cycles of ${technique.name} (${formatDuration(Math.floor(duration))}) with BREATHE SPEC`
 
     if (navigator.share) {
       try {
@@ -126,23 +126,25 @@ export function SessionComplete({
         )}
       </AnimatePresence>
 
-      {/* Success icon with glow */}
+      {/* Success icon with enhanced glow */}
       <motion.div
-        className="relative inline-block mb-6"
+        className="relative inline-block mb-8"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
       >
         <motion.div
-          className="absolute inset-0 bg-gold/20 rounded-full blur-xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute inset-0 bg-gold/25 rounded-full blur-2xl"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 2.5, repeat: Infinity }}
         />
-        <CheckCircle className="w-20 h-20 text-gold relative z-10" />
+        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center">
+          <CheckCircle className="w-12 h-12 text-gold" />
+        </div>
       </motion.div>
 
       <motion.h2
-        className="text-3xl md:text-4xl font-bold mb-2"
+        className="text-3xl md:text-4xl font-bold mb-3 tracking-tight"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
@@ -151,7 +153,7 @@ export function SessionComplete({
       </motion.h2>
 
       <motion.p
-        className="text-slate-light text-lg mb-8"
+        className="text-slate-light text-lg mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
@@ -159,116 +161,123 @@ export function SessionComplete({
         Great work. You completed {technique.name}.
       </motion.p>
 
-      {/* Stats grid */}
+      {/* Stats grid - refined */}
       <motion.div
-        className="grid grid-cols-3 gap-4 mb-8"
+        className="grid grid-cols-3 gap-4 mb-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <div className="bg-white/5 rounded-xl p-4">
-          <Wind className="w-5 h-5 text-arctic mx-auto mb-2" />
-          <p className="text-2xl font-bold text-white">{cycles}</p>
-          <p className="text-xs text-slate-light">Cycles</p>
+        <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5">
+          <div className="w-10 h-10 rounded-lg bg-arctic/10 flex items-center justify-center mx-auto mb-3">
+            <Wind className="w-5 h-5 text-arctic" />
+          </div>
+          <p className="text-2xl md:text-3xl font-bold text-white">{cycles}</p>
+          <p className="text-xs text-slate-light mt-1">Cycles</p>
         </div>
 
-        <div className="bg-white/5 rounded-xl p-4">
-          <Clock className="w-5 h-5 text-gold mx-auto mb-2" />
-          <p className="text-2xl font-bold text-white">
+        <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5">
+          <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center mx-auto mb-3">
+            <Clock className="w-5 h-5 text-gold" />
+          </div>
+          <p className="text-2xl md:text-3xl font-bold text-white">
             {formatDuration(Math.floor(duration))}
           </p>
-          <p className="text-xs text-slate-light">Duration</p>
+          <p className="text-xs text-slate-light mt-1">Duration</p>
         </div>
 
-        <div className="bg-white/5 rounded-xl p-4">
-          <Flame className="w-5 h-5 text-energy mx-auto mb-2" />
-          <p className="text-2xl font-bold text-white">{streakData.currentStreak}</p>
-          <p className="text-xs text-slate-light">Day Streak</p>
+        <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5">
+          <div className="w-10 h-10 rounded-lg bg-energy/10 flex items-center justify-center mx-auto mb-3">
+            <Flame className="w-5 h-5 text-energy" />
+          </div>
+          <p className="text-2xl md:text-3xl font-bold text-white">{streakData.currentStreak}</p>
+          <p className="text-xs text-slate-light mt-1">Day Streak</p>
         </div>
       </motion.div>
 
       {/* Detailed stats */}
       <motion.div
-        className="flex justify-center gap-8 mb-8 text-sm text-slate-light"
+        className="flex justify-center gap-10 mb-10 text-sm text-slate-light"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
       >
         <div>
-          <span className="text-white font-medium">{breathsTaken}</span> breaths
+          <span className="text-white font-semibold">{breathsTaken}</span> breaths
         </div>
         <div>
-          <span className="text-white font-medium">{avgBreathDuration.toFixed(1)}s</span> avg breath
+          <span className="text-white font-semibold">{avgBreathDuration.toFixed(1)}s</span> avg breath
         </div>
       </motion.div>
 
-      {/* Feedback section */}
+      {/* Feedback section - refined */}
       <motion.div
-        className="mb-8"
+        className="mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
       >
-        <p className="text-sm text-slate-light mb-3">How do you feel?</p>
+        <p className="text-sm text-slate-light mb-4">How do you feel?</p>
         <div className="flex justify-center gap-3">
           {feedbackOptions.map((option) => (
             <button
               key={option.value}
               onClick={() => setSelectedFeedback(option.value)}
-              className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all ${
+              className={`flex flex-col items-center gap-1.5 p-4 rounded-xl transition-all duration-200 ${
                 selectedFeedback === option.value
-                  ? 'bg-arctic/20 ring-1 ring-arctic'
-                  : 'bg-white/5 hover:bg-white/10'
+                  ? 'bg-arctic/15 border border-arctic/30 scale-105'
+                  : 'bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06]'
               }`}
             >
-              <span className="text-xl">{option.emoji}</span>
+              <span className="text-2xl">{option.emoji}</span>
               <span className="text-xs text-slate-light">{option.label}</span>
             </button>
           ))}
         </div>
       </motion.div>
 
-      {/* Action buttons */}
+      {/* Action buttons - refined */}
       <motion.div
         className="flex flex-col sm:flex-row items-center justify-center gap-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
       >
-        <Button variant="primary" size="lg" onClick={onRestart} glow className="w-full sm:w-auto">
-          <RotateCcw className="w-5 h-5 mr-2" />
+        <Button variant="primary" size="lg" onClick={onRestart} glow className="w-full sm:w-auto gap-2">
+          <RotateCcw className="w-5 h-5" />
           Start Again
         </Button>
 
         <Link href="/breathe" className="w-full sm:w-auto">
-          <Button variant="secondary" size="lg" className="w-full">
-            <ArrowLeft className="w-5 h-5 mr-2" />
+          <Button variant="secondary" size="lg" className="w-full gap-2">
+            <ArrowLeft className="w-5 h-5" />
             Choose Another
           </Button>
         </Link>
       </motion.div>
 
-      {/* Share button */}
+      {/* Share button - refined */}
       <motion.button
-        className="mt-6 flex items-center gap-2 mx-auto text-sm text-slate-light hover:text-white transition-colors"
+        className="mt-8 flex items-center gap-2 mx-auto text-sm text-slate-light hover:text-white transition-colors group"
         onClick={handleShare}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        <Share2 className="w-4 h-4" />
+        <Share2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
         Share your achievement
       </motion.button>
 
-      {/* Recommendation */}
-      <motion.p
-        className="mt-8 text-xs text-slate"
+      {/* Recommendation - refined */}
+      <motion.div
+        className="mt-10 flex items-center justify-center gap-2 text-xs text-slate"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
       >
-        Tip: Practice daily for best results. Consistency matters more than duration.
-      </motion.p>
+        <Sparkles className="w-3.5 h-3.5" />
+        <span>Tip: Practice daily for best results. Consistency matters more than duration.</span>
+      </motion.div>
     </motion.div>
   )
 }

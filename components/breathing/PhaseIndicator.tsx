@@ -14,19 +14,19 @@ interface PhaseIndicatorProps {
 const phaseColors: Record<Phase, { bg: string; glow: string }> = {
   inhale: {
     bg: 'bg-arctic',
-    glow: 'shadow-arctic/50',
+    glow: 'shadow-glow-arctic',
   },
   hold: {
     bg: 'bg-gold',
-    glow: 'shadow-gold/50',
+    glow: 'shadow-glow-gold',
   },
   holdAfterExhale: {
     bg: 'bg-gold',
-    glow: 'shadow-gold/50',
+    glow: 'shadow-glow-gold',
   },
   exhale: {
     bg: 'bg-slate',
-    glow: 'shadow-slate/50',
+    glow: '',
   },
 }
 
@@ -46,26 +46,26 @@ export function PhaseIndicator({
   const totalDuration = phases.reduce((a, b) => a + b.duration, 0)
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-3">
       {/* Phase bars */}
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2">
         {phases.map((phase, index) => {
           const isCurrent = index === currentPhaseIndex && isActive
           const isComplete = index < currentPhaseIndex && isActive
           const colors = phaseColors[phase.phase]
-          const width = Math.max(32, (phase.duration / totalDuration) * 180)
+          const width = Math.max(36, (phase.duration / totalDuration) * 200)
 
           return (
             <div key={`${phase.phase}-${index}`} className="relative">
               <motion.div
                 className={clsx(
-                  'h-2 rounded-full transition-all duration-300 overflow-hidden',
-                  isComplete ? colors.bg : 'bg-white/20',
-                  isCurrent && `shadow-lg ${colors.glow}`
+                  'h-2.5 rounded-full transition-all duration-300 overflow-hidden',
+                  isComplete ? colors.bg : 'bg-white/[0.12]',
+                  isCurrent && colors.glow
                 )}
                 style={{ width }}
                 animate={{
-                  scale: isCurrent ? 1.1 : 1,
+                  scale: isCurrent ? 1.08 : 1,
                 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
@@ -83,7 +83,7 @@ export function PhaseIndicator({
               {/* Phase label */}
               <motion.span
                 className={clsx(
-                  'absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-medium transition-opacity duration-200',
+                  'absolute -bottom-6 left-1/2 -translate-x-1/2 text-[11px] font-medium tracking-wide transition-opacity duration-200',
                   isCurrent ? 'text-white opacity-100' : 'text-slate-light opacity-0'
                 )}
                 animate={{ opacity: isCurrent ? 1 : 0 }}
@@ -96,7 +96,7 @@ export function PhaseIndicator({
       </div>
 
       {/* Duration indicator */}
-      <div className="h-4" /> {/* Spacer for labels */}
+      <div className="h-5" /> {/* Spacer for labels */}
     </div>
   )
 }

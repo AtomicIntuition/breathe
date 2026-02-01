@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Star } from 'lucide-react'
+import { Star, Quote } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 
 const testimonials = [
@@ -30,19 +30,19 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-24 px-4 relative">
+    <section className="py-32 px-4 relative">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 tracking-tight">
             Trusted by Thousands
           </h2>
-          <p className="text-slate-light text-lg">
+          <p className="text-slate-light text-lg md:text-xl">
             From executives to athletes, people are transforming their lives.
           </p>
         </motion.div>
@@ -56,28 +56,40 @@ export function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card variant="bordered" className="p-6 h-full flex flex-col">
+              <Card variant="bordered" className="p-7 h-full flex flex-col relative overflow-hidden">
+                {/* Subtle quote decoration */}
+                <div className="absolute -top-2 -left-2 opacity-5">
+                  <Quote className="w-20 h-20 text-white" />
+                </div>
+
                 {/* Stars */}
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-1 mb-5 relative z-10">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star
                       key={i}
-                      className="w-4 h-4 fill-gold text-gold"
+                      className="w-4 h-4 fill-gold-400 text-gold-400"
                     />
                   ))}
                 </div>
 
                 {/* Quote */}
-                <blockquote className="text-slate-light flex-1 mb-6">
+                <blockquote className="text-slate-light flex-1 mb-7 leading-relaxed relative z-10 text-[15px]">
                   &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
 
                 {/* Author */}
-                <div>
-                  <p className="font-semibold text-white">
-                    {testimonial.author}
-                  </p>
-                  <p className="text-sm text-slate">{testimonial.role}</p>
+                <div className="relative z-10 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-arctic/30 to-arctic/10 flex items-center justify-center">
+                    <span className="text-arctic font-medium text-sm">
+                      {testimonial.author.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-white">
+                      {testimonial.author}
+                    </p>
+                    <p className="text-sm text-slate">{testimonial.role}</p>
+                  </div>
                 </div>
               </Card>
             </motion.div>

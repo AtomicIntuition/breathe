@@ -17,13 +17,13 @@ export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false }:
 
   return (
     <motion.div
-      className={`flex flex-col items-center gap-4 ${quietMode ? 'quiet-mode' : ''}`}
+      className={`flex flex-col items-center gap-5 ${quietMode ? 'quiet-mode' : ''}`}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Progress bar */}
-      <div className="w-48 h-1 rounded-full bg-white/10 overflow-hidden">
+      {/* Progress bar - refined */}
+      <div className="w-52 h-1.5 rounded-full bg-white/[0.08] overflow-hidden">
         <motion.div
           className="h-full bg-gradient-to-r from-arctic to-arctic-light rounded-full"
           initial={{ width: 0 }}
@@ -32,12 +32,12 @@ export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false }:
         />
       </div>
 
-      {/* Stats row */}
-      <div className="flex items-center gap-6 md:gap-8 text-slate-light">
-        <div className="text-center min-w-[4.5rem]">
-          <p className="text-[10px] uppercase tracking-wider mb-0.5 opacity-70">Elapsed</p>
+      {/* Stats row - refined */}
+      <div className="flex items-center gap-8 md:gap-10 text-slate-light">
+        <div className="text-center min-w-[5rem]">
+          <p className="text-[10px] uppercase tracking-widest mb-1 opacity-60">Elapsed</p>
           <motion.p
-            className="font-mono text-base md:text-lg text-white"
+            className="font-mono text-lg md:text-xl text-white tabular-nums"
             key={Math.floor(elapsed)}
             initial={{ opacity: 0.7 }}
             animate={{ opacity: 1 }}
@@ -48,26 +48,26 @@ export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false }:
 
         {/* Cycle indicator - more prominent */}
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-wider mb-0.5 opacity-70">Cycle</p>
-          <div className="flex items-center gap-1">
+          <p className="text-[10px] uppercase tracking-widest mb-1 opacity-60">Cycle</p>
+          <div className="flex items-center justify-center gap-1.5">
             <motion.span
-              className="font-mono text-lg md:text-xl text-white font-semibold"
+              className="font-mono text-xl md:text-2xl text-white font-semibold tabular-nums"
               key={cycle}
-              initial={{ scale: 1.2, opacity: 0.5 }}
+              initial={{ scale: 1.3, opacity: 0.5 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
               {cycle}
             </motion.span>
-            <span className="text-slate text-sm">/</span>
-            <span className="font-mono text-base text-slate-light">{totalCycles}</span>
+            <span className="text-slate text-base">/</span>
+            <span className="font-mono text-lg text-slate-light tabular-nums">{totalCycles}</span>
           </div>
         </div>
 
-        <div className="text-center min-w-[4.5rem]">
-          <p className="text-[10px] uppercase tracking-wider mb-0.5 opacity-70">Remaining</p>
+        <div className="text-center min-w-[5rem]">
+          <p className="text-[10px] uppercase tracking-widest mb-1 opacity-60">Remaining</p>
           <motion.p
-            className="font-mono text-base md:text-lg text-white"
+            className="font-mono text-lg md:text-xl text-white tabular-nums"
             key={Math.floor(remaining)}
             initial={{ opacity: 0.7 }}
             animate={{ opacity: 1 }}
@@ -77,17 +77,17 @@ export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false }:
         </div>
       </div>
 
-      {/* Cycle progress dots */}
-      <div className="flex items-center gap-1.5">
+      {/* Cycle progress dots - refined */}
+      <div className="flex items-center gap-2">
         {Array.from({ length: totalCycles }, (_, i) => (
           <motion.div
             key={i}
-            className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
               i < cycle
                 ? 'bg-arctic'
                 : i === cycle - 1
                 ? 'bg-arctic'
-                : 'bg-white/20'
+                : 'bg-white/[0.15]'
             }`}
             initial={i === cycle - 1 ? { scale: 0 } : undefined}
             animate={i === cycle - 1 ? { scale: 1 } : undefined}
