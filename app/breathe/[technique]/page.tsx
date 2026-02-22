@@ -18,7 +18,9 @@ import { useBreathingSession } from '@/hooks/useBreathingSession'
 import { useStore } from '@/store/useStore'
 import { addSessionRecord, updateStreak, setLastTechnique } from '@/lib/storage'
 import { HeartRateMonitor } from '@/components/breathing/HeartRateMonitor'
+import { OximeterMonitor } from '@/components/breathing/OximeterMonitor'
 import { useHeartRate } from '@/hooks/useHeartRate'
+import { useOximeter } from '@/hooks/useOximeter'
 import { forceUnlock } from '@/lib/sounds'
 
 export default function TechniquePage() {
@@ -33,6 +35,7 @@ export default function TechniquePage() {
   const { soundEnabled, setSoundEnabled, hapticEnabled, setHapticEnabled } = useStore()
 
   const hr = useHeartRate()
+  const oxi = useOximeter()
 
   const isTableTechnique = !!technique?.rounds
 
@@ -166,9 +169,14 @@ export default function TechniquePage() {
                   />
                 </motion.div>
 
-                {hr.isReading && (
-                  <motion.div className="mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <HeartRateMonitor {...hr} onStart={hr.start} onStop={hr.stop} compact />
+                {(hr.isReading || oxi.isConnected) && (
+                  <motion.div className="mb-6 flex flex-col items-center gap-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    {hr.isReading && (
+                      <HeartRateMonitor {...hr} onStart={hr.start} onStop={hr.stop} compact />
+                    )}
+                    {oxi.isConnected && (
+                      <OximeterMonitor {...oxi} onConnect={oxi.connect} onDisconnect={oxi.disconnect} compact />
+                    )}
                   </motion.div>
                 )}
 
@@ -366,9 +374,10 @@ export default function TechniquePage() {
             />
           </div>
 
-          {/* Heart Rate Monitor */}
-          <div className="mb-8">
+          {/* Health Monitors */}
+          <div className="mb-8 flex flex-col items-center gap-4">
             <HeartRateMonitor {...hr} onStart={hr.start} onStop={hr.stop} />
+            <OximeterMonitor {...oxi} onConnect={oxi.connect} onDisconnect={oxi.disconnect} />
           </div>
 
           {/* Start button */}
