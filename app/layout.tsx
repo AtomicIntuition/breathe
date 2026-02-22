@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const inter = Inter({
@@ -105,6 +106,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-navy text-white min-h-screen overflow-y-auto">
         {children}
+        <Analytics />
       </body>
     </html>
   )
