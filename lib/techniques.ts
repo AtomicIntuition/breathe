@@ -1,4 +1,4 @@
-export type Phase = 'inhale' | 'hold' | 'exhale' | 'holdAfterExhale'
+export type Phase = 'inhale' | 'hold' | 'exhale' | 'holdAfterExhale' | 'rest'
 
 export interface BreathingPhase {
   phase: Phase
@@ -17,11 +17,12 @@ export interface BreathingTechnique {
   useCase: string
   source: string
   icon: string
-  color: 'arctic' | 'gold' | 'slate' | 'purple' | 'orange' | 'emerald' | 'rose'
+  color: 'arctic' | 'gold' | 'slate' | 'purple' | 'orange' | 'emerald' | 'rose' | 'cyan'
   defaultCycles: number
-  category: 'calm' | 'focus' | 'energy' | 'sleep' | 'recovery'
+  category: 'calm' | 'focus' | 'energy' | 'sleep' | 'recovery' | 'freediving'
   difficulty?: 'beginner' | 'intermediate' | 'advanced'
   bodyGuidance?: Record<Phase, string>
+  rounds?: BreathingPhase[][]
 }
 
 export const techniques: BreathingTechnique[] = [
@@ -368,6 +369,127 @@ export const techniques: BreathingTechnique[] = [
     category: 'focus',
     difficulty: 'advanced',
   },
+
+  // ==========================================
+  // FREEDIVING
+  // ==========================================
+  {
+    id: 'freedive-breathup',
+    name: 'Freedive Breath-Up',
+    tagline: 'Pre-Dive Relaxation',
+    description: 'The standard pre-dive relaxation sequence used by competitive freedivers. A slow inhale, brief hold, and extended exhale lower heart rate and maximize oxygen saturation before a dive.',
+    pattern: '5-2-10',
+    phases: [
+      { phase: 'inhale', duration: 5, instruction: 'Deep Inhale' },
+      { phase: 'hold', duration: 2, instruction: 'Gentle Hold' },
+      { phase: 'exhale', duration: 10, instruction: 'Slow Exhale' },
+    ],
+    purpose: 'Pre-dive relaxation, heart rate reduction, oxygen saturation',
+    useCase: 'Before freediving, breath-hold training, deep relaxation',
+    source: 'Competitive freediving preparation protocols',
+    icon: 'Anchor',
+    color: 'cyan',
+    defaultCycles: 6,
+    category: 'freediving',
+    difficulty: 'beginner',
+  },
+  {
+    id: 'recovery-hook',
+    name: 'Recovery Breathing / Hook',
+    tagline: 'Post-Dive Safety',
+    description: 'The essential post-dive recovery technique. A quick inhale followed by a pressurized hold ("hook breath") prevents shallow-water blackout by maintaining intrathoracic pressure and cerebral blood flow after surfacing.',
+    pattern: '1-3-3',
+    phases: [
+      { phase: 'inhale', duration: 1, instruction: 'Quick Inhale' },
+      { phase: 'hold', duration: 3, instruction: 'Hook Hold' },
+      { phase: 'exhale', duration: 3, instruction: 'Controlled Exhale' },
+    ],
+    purpose: 'Post-dive safety, blackout prevention, rapid reoxygenation',
+    useCase: 'Immediately after surfacing from a breath-hold dive',
+    source: 'AIDA freediving safety protocols',
+    icon: 'Wind',
+    color: 'cyan',
+    defaultCycles: 5,
+    category: 'freediving',
+    difficulty: 'intermediate',
+  },
+  {
+    id: 'diaphragmatic-freedive',
+    name: 'Diaphragmatic Breathing',
+    tagline: 'Foundation Technique',
+    description: 'The foundational breathing technique for all freedivers. Focuses on deep belly breathing to maximize tidal volume and train the diaphragm for efficient gas exchange. Longer exhale promotes CO2 tolerance.',
+    pattern: '5-7',
+    phases: [
+      { phase: 'inhale', duration: 5, instruction: 'Belly Inhale' },
+      { phase: 'exhale', duration: 7, instruction: 'Complete Exhale' },
+    ],
+    purpose: 'Diaphragm training, tidal volume improvement, CO2 tolerance',
+    useCase: 'Daily freediving practice, breathing foundation, relaxation',
+    source: 'Freediving training fundamentals',
+    icon: 'Wind',
+    color: 'cyan',
+    defaultCycles: 10,
+    category: 'freediving',
+    difficulty: 'beginner',
+  },
+  {
+    id: 'co2-table',
+    name: 'CO2 Tolerance Table',
+    tagline: 'Build CO2 Tolerance',
+    description: 'A progressive training table that builds carbon dioxide tolerance. Each round holds for a fixed 2 minutes while rest periods decrease from 2:00 down to 0:15. Trains your body to remain calm as CO2 levels rise.',
+    pattern: '8 rounds, decreasing rest',
+    phases: [
+      { phase: 'rest', duration: 120, instruction: 'Breathe Normally' },
+      { phase: 'hold', duration: 120, instruction: 'Hold Breath' },
+    ],
+    purpose: 'CO2 tolerance, breath-hold endurance, mental resilience',
+    useCase: 'Freediving training, breath-hold progression, mental toughness',
+    source: 'Standard freediving CO2 tolerance training protocol',
+    icon: 'TrendingUp',
+    color: 'cyan',
+    defaultCycles: 8,
+    category: 'freediving',
+    difficulty: 'advanced',
+    rounds: [
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 105, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 90, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 75, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 60, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 45, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 30, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 15, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+    ],
+  },
+  {
+    id: 'o2-table',
+    name: 'O2 Depletion Table',
+    tagline: 'Extend Breath-Hold',
+    description: 'A progressive training table that extends breath-hold duration. Each round rests for a fixed 2 minutes while hold times increase from 1:00 up to 2:45. Trains your body to function at lower oxygen levels.',
+    pattern: '8 rounds, increasing hold',
+    phases: [
+      { phase: 'rest', duration: 120, instruction: 'Breathe Normally' },
+      { phase: 'hold', duration: 60, instruction: 'Hold Breath' },
+    ],
+    purpose: 'Oxygen efficiency, extended breath-hold, hypoxic tolerance',
+    useCase: 'Advanced freediving training, breath-hold progression',
+    source: 'Standard freediving O2 depletion training protocol',
+    icon: 'TrendingUp',
+    color: 'cyan',
+    defaultCycles: 8,
+    category: 'freediving',
+    difficulty: 'advanced',
+    rounds: [
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 60, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 75, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 90, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 105, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 120, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 135, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 150, instruction: 'Hold Breath' }],
+      [{ phase: 'rest', duration: 120, instruction: 'Breathe Normally' }, { phase: 'hold', duration: 165, instruction: 'Hold Breath' }],
+    ],
+  },
 ]
 
 export function getTechniqueById(id: string): BreathingTechnique | undefined {
@@ -376,6 +498,13 @@ export function getTechniqueById(id: string): BreathingTechnique | undefined {
 
 export function getTechniquesByCategory(category: BreathingTechnique['category']): BreathingTechnique[] {
   return techniques.filter((t) => t.category === category)
+}
+
+export function getPhasesForRound(technique: BreathingTechnique, round: number): BreathingPhase[] {
+  if (technique.rounds && technique.rounds[round]) {
+    return technique.rounds[round]
+  }
+  return technique.phases
 }
 
 export function getRecommendedTechnique(goal: string): BreathingTechnique {
@@ -388,6 +517,7 @@ export function getRecommendedTechnique(goal: string): BreathingTechnique {
     recovery: 'recovery-breathing',
     anxiety: 'physiological-sigh',
     performance: 'box-breathing',
+    freediving: 'freedive-breathup',
   }
 
   const techniqueId = recommendations[goal] || 'box-breathing'
@@ -395,6 +525,14 @@ export function getRecommendedTechnique(goal: string): BreathingTechnique {
 }
 
 export function calculateSessionDuration(technique: BreathingTechnique, cycles: number): number {
+  if (technique.rounds) {
+    let total = 0
+    for (let i = 0; i < cycles; i++) {
+      const phases = getPhasesForRound(technique, i)
+      total += phases.reduce((sum, phase) => sum + phase.duration, 0)
+    }
+    return total
+  }
   const cycleDuration = technique.phases.reduce((sum, phase) => sum + phase.duration, 0)
   return cycleDuration * cycles
 }

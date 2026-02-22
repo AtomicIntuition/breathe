@@ -20,6 +20,9 @@ import {
   Star,
   Eye,
   Shield,
+  TrendingUp,
+  Wind,
+  Anchor,
 } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -45,6 +48,9 @@ const iconMap: Record<string, React.ElementType> = {
   CloudMoon,
   Eye,
   Shield,
+  TrendingUp,
+  Wind,
+  Anchor,
 }
 
 const colorMap: Record<string, { text: string; bg: string; border: string; glow: string }> = {
@@ -90,6 +96,12 @@ const colorMap: Record<string, { text: string; bg: string; border: string; glow:
     border: 'hover:border-rose-400/40',
     glow: '',
   },
+  cyan: {
+    text: 'text-cyan-400',
+    bg: 'bg-cyan-500/10',
+    border: 'hover:border-cyan-400/40',
+    glow: 'hover:shadow-glow-cyan',
+  },
 }
 
 const categoryInfo: Record<string, { label: string; description: string; icon: React.ElementType }> = {
@@ -118,9 +130,14 @@ const categoryInfo: Record<string, { label: string; description: string; icon: R
     description: 'Restore and recharge your system',
     icon: Battery,
   },
+  freediving: {
+    label: 'Freediving',
+    description: 'Breath-hold training and dive preparation',
+    icon: Anchor,
+  },
 }
 
-const categoryOrder: BreathingTechnique['category'][] = ['focus', 'calm', 'sleep', 'energy', 'recovery']
+const categoryOrder: BreathingTechnique['category'][] = ['focus', 'calm', 'sleep', 'energy', 'recovery', 'freediving']
 
 export default function BreathePage() {
   const { userGoal } = useStore()

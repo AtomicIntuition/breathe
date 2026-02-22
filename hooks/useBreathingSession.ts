@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useCallback, useRef, useEffect } from 'react'
-import { BreathingTechnique, Phase } from '@/lib/techniques'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import { BreathingTechnique, BreathingPhase, Phase, getPhasesForRound } from '@/lib/techniques'
 import { playChime, playSessionComplete, forceUnlock } from '@/lib/sounds'
 import { triggerHaptic } from '@/lib/haptics'
 import { useStore } from '@/store/useStore'
@@ -26,6 +26,7 @@ interface UseBreathingSessionReturn {
   resume: () => void
   stop: () => void
   isComplete: boolean
+  activePhases: BreathingPhase[]
 }
 
 export function useBreathingSession(
@@ -34,12 +35,18 @@ export function useBreathingSession(
 ): UseBreathingSessionReturn {
   const { soundEnabled, hapticEnabled } = useStore()
 
+  const getActivePhasesForCycle = useCallback((cycle: number) => {
+    return getPhasesForRound(technique, cycle - 1)
+  }, [technique])
+
+  const initialPhases = getActivePhasesForCycle(1)
+
   const [state, setState] = useState<SessionState>({
     isActive: false,
     isPaused: false,
     currentPhaseIndex: 0,
     currentCycle: 1,
-    phaseTimeRemaining: technique.phases[0]?.duration ?? 0,
+    phaseTimeRemaining: initialPhases[0]?.duration ?? 0,
     totalTimeElapsed: 0,
   })
 
@@ -47,8 +54,21 @@ export function useBreathingSession(
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const lastTickRef = useRef<number>(0)
 
-  const totalDuration = technique.phases.reduce((sum, p) => sum + p.duration, 0) * cycles
-  const currentPhaseDuration = technique.phases[state.currentPhaseIndex]?.duration ?? 1
+  const activePhases = useMemo(() => getActivePhasesForCycle(state.currentCycle), [getActivePhasesForCycle, state.currentCycle])
+
+  const totalDuration = useMemo(() => {
+    if (technique.rounds) {
+      let total = 0
+      for (let i = 0; i < cycles; i++) {
+        const phases = getPhasesForRound(technique, i)
+        total += phases.reduce((sum, p) => sum + p.duration, 0)
+      }
+      return total
+    }
+    return technique.phases.reduce((sum, p) => sum + p.duration, 0) * cycles
+  }, [technique, cycles])
+
+  const currentPhaseDuration = activePhases[state.currentPhaseIndex]?.duration ?? 1
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current) {
@@ -69,13 +89,14 @@ export function useBreathingSession(
       let newPhaseIndex = prev.currentPhaseIndex
       let newCycle = prev.currentCycle
       let phaseChanged = false
+      let currentRoundPhases = getPhasesForRound(technique, newCycle - 1)
 
       // Check if phase is complete
       while (newPhaseTime <= 0) {
         newPhaseIndex++
         phaseChanged = true
 
-        if (newPhaseIndex >= technique.phases.length) {
+        if (newPhaseIndex >= currentRoundPhases.length) {
           newPhaseIndex = 0
           newCycle++
 
@@ -95,9 +116,12 @@ export function useBreathingSession(
               totalTimeElapsed: totalDuration,
             }
           }
+
+          // Re-fetch phases for the new round
+          currentRoundPhases = getPhasesForRound(technique, newCycle - 1)
         }
 
-        newPhaseTime += technique.phases[newPhaseIndex].duration
+        newPhaseTime += currentRoundPhases[newPhaseIndex].duration
       }
 
       // Play sound on phase change
@@ -121,12 +145,13 @@ export function useBreathingSession(
     setIsComplete(false)
     lastTickRef.current = Date.now()
 
+    const firstRoundPhases = getPhasesForRound(technique, 0)
     setState({
       isActive: true,
       isPaused: false,
       currentPhaseIndex: 0,
       currentCycle: 1,
-      phaseTimeRemaining: technique.phases[0]?.duration ?? 0,
+      phaseTimeRemaining: firstRoundPhases[0]?.duration ?? 0,
       totalTimeElapsed: 0,
     })
 
@@ -152,12 +177,13 @@ export function useBreathingSession(
 
   const stop = useCallback(() => {
     clearTimer()
+    const firstRoundPhases = getPhasesForRound(technique, 0)
     setState({
       isActive: false,
       isPaused: false,
       currentPhaseIndex: 0,
       currentCycle: 1,
-      phaseTimeRemaining: technique.phases[0]?.duration ?? 0,
+      phaseTimeRemaining: firstRoundPhases[0]?.duration ?? 0,
       totalTimeElapsed: 0,
     })
     setIsComplete(false)
@@ -167,8 +193,8 @@ export function useBreathingSession(
     return () => clearTimer()
   }, [clearTimer])
 
-  const currentPhase = technique.phases[state.currentPhaseIndex]?.phase ?? null
-  const currentInstruction = technique.phases[state.currentPhaseIndex]?.instruction ?? ''
+  const currentPhase = activePhases[state.currentPhaseIndex]?.phase ?? null
+  const currentInstruction = activePhases[state.currentPhaseIndex]?.instruction ?? ''
   const progress = totalDuration > 0 ? (state.totalTimeElapsed / totalDuration) * 100 : 0
   const phaseProgress = currentPhaseDuration > 0
     ? ((currentPhaseDuration - state.phaseTimeRemaining) / currentPhaseDuration) * 100
@@ -185,5 +211,6 @@ export function useBreathingSession(
     resume,
     stop,
     isComplete,
+    activePhases,
   }
 }

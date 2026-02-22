@@ -55,6 +55,11 @@ const config: Config = {
           light: '#818CF8',
           dark: '#4F46E5',
         },
+        freediving: {
+          DEFAULT: '#06B6D4', // Cyan for freediving
+          light: '#22D3EE',
+          dark: '#0891B2',
+        },
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
@@ -91,6 +96,8 @@ const config: Config = {
         'glow-arctic-lg': '0 0 40px rgba(74, 144, 217, 0.4)',
         'glow-gold': '0 0 20px rgba(201, 162, 39, 0.3)',
         'glow-gold-lg': '0 0 40px rgba(201, 162, 39, 0.4)',
+        'glow-cyan': '0 0 20px rgba(6, 182, 212, 0.3)',
+        'glow-cyan-lg': '0 0 40px rgba(6, 182, 212, 0.4)',
         'inner-glow': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
       },
       borderRadius: {
@@ -226,6 +233,7 @@ const config: Config = {
         'gradient-calm': 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 50%, #8B5CF6 100%)',
         'gradient-energy': 'linear-gradient(135deg, #F97316 0%, #FB923C 50%, #F97316 100%)',
         'gradient-sleep': 'linear-gradient(135deg, #6366F1 0%, #818CF8 50%, #6366F1 100%)',
+        'gradient-freediving': 'linear-gradient(135deg, #06B6D4 0%, #22D3EE 50%, #06B6D4 100%)',
       },
       transitionTimingFunction: {
         'spring': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',

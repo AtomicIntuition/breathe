@@ -1521,6 +1521,452 @@ const techniqueGuides: Record<string, GuideContent> = {
     progression: 'Start with comfortable hold durations and gradually extend. Goal: maintain complete calm through the challenging phases. Advanced: practice in progressively less comfortable conditions.',
     expertNote: '"SERE training uses stress inoculation to prepare participants for these scenarios—pushing agents to their mental limits, then teaching them how to push back." — SERE Training Overview',
   },
+
+  // ==========================================
+  // FREEDIVE BREATH-UP
+  // ==========================================
+  'freedive-breathup': {
+    overview: 'The standard pre-dive relaxation sequence used by competitive freedivers worldwide. The extended exhale (twice the inhale) lowers heart rate and maximizes oxygen saturation in preparation for a breath-hold dive.',
+    steps: [
+      {
+        instruction: 'Deep inhale through nose',
+        detail: 'Fill your lungs from the belly up. Engage the diaphragm fully, then expand the ribs, finally the chest. Aim for full but not strained capacity.',
+        duration: '5 seconds',
+      },
+      {
+        instruction: 'Gentle hold',
+        detail: 'A brief, relaxed pause at the top. No tension—just a moment of stillness to allow gas exchange.',
+        duration: '2 seconds',
+      },
+      {
+        instruction: 'Long slow exhale',
+        detail: 'Release through pursed lips or nose. Twice as long as the inhale. This is where heart rate drops and relaxation deepens.',
+        duration: '10 seconds',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Floating face-down at the surface (in water) or lying on your back (dry practice). Body completely relaxed.',
+      alternatives: [
+        'Seated upright for dry training sessions',
+        'Lying on back with knees bent for comfort',
+        'At the pool edge before entering the water',
+      ],
+      tips: [
+        'Relax your face, jaw, and neck completely',
+        'Let your body become as heavy as possible',
+        'Close your eyes and focus inward',
+      ],
+    },
+    proTips: [
+      'Spend at least 2-3 minutes on breath-up before any dive',
+      'Focus on the exhale—this is where the magic happens',
+      'Monitor your heart rate to verify it drops during practice',
+      'Never hyperventilate before a dive—this technique is the opposite',
+    ],
+    science: 'The 2:1 exhale-to-inhale ratio strongly activates the parasympathetic nervous system via the vagus nerve. This lowers heart rate (dive reflex enhancement), optimizes oxygen saturation, and reduces metabolic oxygen consumption—all critical for extending breath-hold time safely.',
+    whenToUse: [
+      'Before any freedive or breath-hold attempt',
+      'During freediving training sessions',
+      'As a general deep relaxation practice',
+      'Before meditation or sleep',
+    ],
+    whenToAvoid: [
+      'Never hyperventilate before diving—this is controlled relaxation, not hyperventilation',
+      'If you feel lightheaded, slow down and breathe normally',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Rushing the breath-up sequence',
+        correction: 'Take at least 2 minutes. Patience in the breath-up translates to longer, safer dives.',
+      },
+      {
+        mistake: 'Hyperventilating (fast, deep breathing)',
+        correction: 'This technique is slow and controlled. Hyperventilation lowers CO2 dangerously and can cause blackout.',
+      },
+      {
+        mistake: 'Tensing up during the hold',
+        correction: 'The hold should be effortless. If you feel strain, shorten it.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Optimizes oxygen saturation',
+        explanation: 'Full, controlled breathing ensures maximum O2 loading before a dive.',
+      },
+      {
+        benefit: 'Lowers heart rate',
+        explanation: 'Extended exhale activates the dive reflex, reducing cardiac oxygen demand.',
+      },
+      {
+        benefit: 'Reduces oxygen consumption',
+        explanation: 'Deep relaxation lowers metabolic rate, extending breath-hold time.',
+      },
+      {
+        benefit: 'Mental preparation',
+        explanation: 'Creates calm, focused mental state essential for safe freediving.',
+      },
+    ],
+    progression: 'Start with 5-2-8, progress to 5-2-10, then 5-2-12 as your comfort increases.',
+    expertNote: '"The breath-up is the most important part of any dive. Rush it, and you compromise everything that follows." — Competitive freediving coach',
+  },
+
+  // ==========================================
+  // RECOVERY BREATHING / HOOK
+  // ==========================================
+  'recovery-hook': {
+    overview: 'The essential post-dive safety technique used by all trained freedivers. The "hook breath" maintains intrathoracic pressure after surfacing, preventing shallow-water blackout by keeping oxygenated blood flowing to the brain during the critical recovery window.',
+    steps: [
+      {
+        instruction: 'Quick inhale',
+        detail: 'Immediately upon surfacing, take a quick breath in through your mouth. Don\'t try for full capacity—just get air in fast.',
+        duration: '1 second',
+      },
+      {
+        instruction: 'Hook hold (pressurized)',
+        detail: 'Close your glottis and bear down gently—like a controlled Valsalva maneuver. This maintains pressure in the chest, keeping blood flowing to the brain.',
+        duration: '3 seconds',
+      },
+      {
+        instruction: 'Controlled exhale',
+        detail: 'Release the pressure and exhale smoothly. Don\'t gasp or hyperventilate. Controlled recovery is essential.',
+        duration: '3 seconds',
+      },
+    ],
+    bodyPosition: {
+      primary: 'At the surface of the water, holding onto a buoy or pool edge. Keep your airway above water.',
+      alternatives: [
+        'Practice on land to learn the hook breath mechanics',
+        'Seated upright for dry training',
+      ],
+      tips: [
+        'Always have a safety buddy when freediving',
+        'Maintain eye contact with your buddy while recovering',
+        'Stay at the surface for at least 30 seconds before speaking',
+      ],
+    },
+    proTips: [
+      'Practice the hook breath on land until it becomes automatic',
+      'The pressurized hold is the critical part—learn to engage your glottis',
+      'Perform 3-5 hook breaths after every dive, even if you feel fine',
+      'Never skip recovery breathing—blackouts can occur 10-15 seconds after surfacing',
+    ],
+    science: 'After a breath-hold dive, blood oxygen can continue dropping for several seconds even after breathing resumes (the "post-dive O2 drop"). The hook breath maintains intrathoracic pressure, which prevents blood pooling away from the brain and buys time for reoxygenation. This is the primary defense against shallow-water blackout.',
+    whenToUse: [
+      'Immediately after surfacing from any breath-hold dive',
+      'After any extended breath-hold practice',
+      'As a safety drill during freediving training',
+    ],
+    whenToAvoid: [
+      'No contraindications—this is a safety technique that should always be used after diving',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Skipping recovery breaths when feeling fine',
+        correction: 'Always perform hook breaths. Blackout can occur without warning even when you feel okay.',
+      },
+      {
+        mistake: 'Hyperventilating after surfacing',
+        correction: 'Controlled recovery breathing is critical. Fast gasping can cause further oxygen drops.',
+      },
+      {
+        mistake: 'Not engaging the glottis during the hold',
+        correction: 'The pressurized hold is what prevents blackout. Learn to close and pressurize properly.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Prevents shallow-water blackout',
+        explanation: 'Maintains cerebral blood flow during the critical post-dive window.',
+      },
+      {
+        benefit: 'Rapid reoxygenation',
+        explanation: 'Pressurized breathing accelerates oxygen delivery to the brain.',
+      },
+      {
+        benefit: 'Safety foundation',
+        explanation: 'The single most important safety technique in freediving.',
+      },
+    ],
+    progression: 'Practice on land first, then incorporate after pool sessions. Should become automatic—never skip it.',
+    expertNote: '"Hook breathing has saved more lives in freediving than any other single technique. It is non-negotiable." — AIDA Safety Protocol',
+  },
+
+  // ==========================================
+  // DIAPHRAGMATIC BREATHING (FREEDIVING)
+  // ==========================================
+  'diaphragmatic-freedive': {
+    overview: 'The foundational breathing technique for all freedivers. This practice trains the diaphragm for maximum efficiency, increases tidal volume, and builds CO2 tolerance through the extended exhale. Master this before attempting any advanced freediving techniques.',
+    steps: [
+      {
+        instruction: 'Belly inhale through nose',
+        detail: 'Breathe deeply into your belly, expanding the diaphragm downward. Your belly should visibly rise. Keep chest relatively still initially, then let it expand last.',
+        duration: '5 seconds',
+      },
+      {
+        instruction: 'Complete exhale',
+        detail: 'Exhale fully and slowly. Engage your abdominal muscles gently at the end to push out residual air. The longer exhale builds CO2 tolerance.',
+        duration: '7 seconds',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Lying on your back with one hand on belly, one on chest. The belly hand should rise prominently; the chest hand should barely move.',
+      alternatives: [
+        'Seated upright with relaxed shoulders',
+        'Standing with hands on lower ribs to feel expansion',
+      ],
+      tips: [
+        'Focus on belly movement first before adding rib expansion',
+        'Keep shoulders completely still and relaxed',
+        'Exhale should be smooth—not forced at the end',
+      ],
+    },
+    proTips: [
+      'Practice daily for at least 10 minutes to build diaphragm strength',
+      'Gradually extend the exhale from 7 to 10 seconds as you improve',
+      'Monitor your belly hand—it should rise first and fall last',
+      'This technique transfers directly to improved dive performance',
+    ],
+    science: 'Diaphragmatic breathing maximizes the volume of air exchanged per breath (tidal volume). The diaphragm is the most efficient breathing muscle. Training it improves gas exchange, increases lung capacity utilization, and the extended exhale builds CO2 tolerance—essential for freediving.',
+    whenToUse: [
+      'Daily practice for freediving preparation',
+      'As a warm-up before breath-hold training',
+      'For general relaxation and stress reduction',
+      'Before sleep for deep relaxation',
+    ],
+    whenToAvoid: [
+      'No contraindications—this is a foundational technique safe for everyone',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Chest breathing instead of belly breathing',
+        correction: 'Place a hand on your belly. It must rise before your chest. Think "breathe into your navel."',
+      },
+      {
+        mistake: 'Forcing the exhale',
+        correction: 'The exhale should be controlled and gradual. Forcing creates tension that defeats the purpose.',
+      },
+      {
+        mistake: 'Practicing inconsistently',
+        correction: 'Diaphragm strength builds with daily practice. Sporadic sessions yield minimal improvement.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Increases tidal volume',
+        explanation: 'More efficient gas exchange per breath means better oxygen loading.',
+      },
+      {
+        benefit: 'Builds CO2 tolerance',
+        explanation: 'The extended exhale gently increases CO2 levels, training your body to stay calm.',
+      },
+      {
+        benefit: 'Strengthens the diaphragm',
+        explanation: 'A stronger diaphragm improves all aspects of breathing efficiency.',
+      },
+      {
+        benefit: 'Foundation for all diving',
+        explanation: 'Every advanced freediving technique builds on proper diaphragmatic breathing.',
+      },
+    ],
+    progression: 'Start with 5-7, progress to 5-9, then 5-12. Focus on exhale extension as your CO2 tolerance improves.',
+    expertNote: '"If you can\'t breathe diaphragmatically, you\'re not ready for freediving. This is where every diver must begin." — Freediving instructor',
+  },
+
+  // ==========================================
+  // CO2 TOLERANCE TABLE
+  // ==========================================
+  'co2-table': {
+    overview: 'The CO2 Tolerance Table is a progressive training protocol that builds your body\'s ability to handle rising carbon dioxide levels. Each round holds for a fixed 2 minutes while rest periods decrease from 2:00 to 0:15. This trains your chemoreceptors to tolerate higher CO2 without triggering panic.',
+    steps: [
+      {
+        instruction: 'Round 1: Rest 2:00 → Hold 2:00',
+        detail: 'Full recovery breathing followed by a 2-minute breath hold. This first round is the easiest—use it to settle in.',
+        duration: '4:00 total',
+      },
+      {
+        instruction: 'Rounds 2-4: Rest decreases to 1:15',
+        detail: 'Rest periods shorten progressively (1:45, 1:30, 1:15). Each hold remains 2:00. CO2 begins accumulating between rounds.',
+        duration: 'Progressive',
+      },
+      {
+        instruction: 'Rounds 5-7: Rest decreases to 0:30',
+        detail: 'Now the challenge intensifies (1:00, 0:45, 0:30). Less recovery means higher baseline CO2 before each hold.',
+        duration: 'Progressive',
+      },
+      {
+        instruction: 'Round 8: Rest 0:15 → Hold 2:00',
+        detail: 'The final round with minimal recovery. This is peak CO2 tolerance training. Stay calm and focused.',
+        duration: '2:15 total',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Lying on your back in a safe location, or floating face-down in a pool with a buddy. Never practice alone in water.',
+      alternatives: [
+        'Seated upright for dry training',
+        'In a pool with a trained safety buddy',
+      ],
+      tips: [
+        'Always have a safety buddy for water practice',
+        'Practice in a safe location where you can stop at any time',
+        'Stay relaxed between rounds—tension increases oxygen consumption',
+      ],
+    },
+    proTips: [
+      'If you can\'t complete a hold, stop the table—don\'t push through to blackout',
+      'Track your comfort level each round to measure progress over weeks',
+      'The urge to breathe is caused by CO2, not lack of oxygen—you are safe',
+      'Practice 2-3 times per week for progressive improvement',
+    ],
+    science: 'CO2 tolerance training works by repeatedly exposing chemoreceptors (in the brainstem and carotid bodies) to elevated CO2 levels. Over time, the threshold for triggering the urge to breathe increases. This translates directly to longer, more comfortable breath-holds during freediving.',
+    whenToUse: [
+      'As a dedicated freediving training session',
+      '2-3 times per week for progressive improvement',
+      'During pool training with a safety buddy',
+    ],
+    whenToAvoid: [
+      'Never practice alone in water',
+      'If you feel unwell, dizzy, or have any medical concerns',
+      'Do not practice within 2 hours of eating',
+      'If you have cardiac or respiratory conditions, consult a physician',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Pushing through to blackout',
+        correction: 'Stop immediately if you feel tingling in extremities, tunnel vision, or confusion. These are warning signs.',
+      },
+      {
+        mistake: 'Practicing alone in water',
+        correction: 'ALWAYS have a trained safety buddy for any breath-hold practice in water. This is non-negotiable.',
+      },
+      {
+        mistake: 'Hyperventilating during rest periods',
+        correction: 'Breathe normally and calmly during rest. Hyperventilation is dangerous before breath-holds.',
+      },
+      {
+        mistake: 'Doing tables daily',
+        correction: 'Allow recovery between sessions. 2-3 times per week is optimal for progression.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Increased CO2 tolerance',
+        explanation: 'Delays the urge to breathe, making breath-holds more comfortable.',
+      },
+      {
+        benefit: 'Mental resilience',
+        explanation: 'Training with discomfort builds psychological toughness for diving.',
+      },
+      {
+        benefit: 'Progressive overload',
+        explanation: 'Decreasing rest periods create systematic training stimulus.',
+      },
+      {
+        benefit: 'Measurable improvement',
+        explanation: 'Track your comfort level across weeks to see clear progression.',
+      },
+    ],
+    progression: 'Start with 50% of your max hold if 2:00 is too long. Progress by using longer hold times as your tolerance improves.',
+    expertNote: '"CO2 tables are the bread and butter of freediving training. They systematically build the tolerance that separates beginners from advanced divers." — Freediving training manual',
+  },
+
+  // ==========================================
+  // O2 DEPLETION TABLE
+  // ==========================================
+  'o2-table': {
+    overview: 'The O2 Depletion Table trains your body to function at lower oxygen levels. Each round rests for a fixed 2 minutes (full recovery) while hold times increase from 1:00 to 2:45. This builds hypoxic tolerance—your body\'s ability to perform with less oxygen.',
+    steps: [
+      {
+        instruction: 'Round 1: Rest 2:00 → Hold 1:00',
+        detail: 'Full recovery followed by a short hold. Easy start to settle in and establish your rhythm.',
+        duration: '3:00 total',
+      },
+      {
+        instruction: 'Rounds 2-4: Hold increases to 1:45',
+        detail: 'Hold times increase by 15 seconds each round (1:15, 1:30, 1:45). Full 2:00 rest each time for complete recovery.',
+        duration: 'Progressive',
+      },
+      {
+        instruction: 'Rounds 5-7: Hold increases to 2:30',
+        detail: 'Now pushing into challenging territory (2:00, 2:15, 2:30). Your body adapts to lower O2 levels with each round.',
+        duration: 'Progressive',
+      },
+      {
+        instruction: 'Round 8: Rest 2:00 → Hold 2:45',
+        detail: 'The maximum hold. Your body has been progressively depleted of oxygen reserves. This final effort builds peak hypoxic tolerance.',
+        duration: '4:45 total',
+      },
+    ],
+    bodyPosition: {
+      primary: 'Lying on your back in a safe location, or in a pool with a trained safety buddy. Never practice alone in water.',
+      alternatives: [
+        'Seated upright for dry training',
+        'In a pool with a trained safety buddy',
+      ],
+      tips: [
+        'Always have a safety buddy for water practice',
+        'Full recovery between rounds is essential—use all 2 minutes',
+        'Listen to your body—stop if you experience warning signs',
+      ],
+    },
+    proTips: [
+      'O2 tables are more dangerous than CO2 tables—respect the protocol',
+      'Scale hold times to your ability (e.g., start at 50% of max)',
+      'The fixed rest allows full recovery—don\'t rush it',
+      'Progress slowly—increase max hold by 15 seconds per week maximum',
+    ],
+    science: 'O2 depletion training triggers adaptations in the spleen (increased red blood cell release), muscles (improved oxygen efficiency), and brain (better function at lower O2). These adaptations mirror what happens at high altitude, creating a "freediver\'s advantage" for extended breath-holds.',
+    whenToUse: [
+      'As a dedicated advanced freediving training session',
+      '1-2 times per week—less frequent than CO2 tables',
+      'Only after mastering CO2 tolerance tables',
+      'During supervised pool training',
+    ],
+    whenToAvoid: [
+      'Never practice alone—especially in water',
+      'Not for beginners—master CO2 tables first',
+      'If you have any cardiac or neurological conditions',
+      'When fatigued or unwell',
+      'Within 2 hours of eating',
+    ],
+    commonMistakes: [
+      {
+        mistake: 'Starting with hold times that are too long',
+        correction: 'Begin at 50% of your maximum hold. The table should be challenging but completable.',
+      },
+      {
+        mistake: 'Practicing alone',
+        correction: 'O2 tables carry higher blackout risk than CO2 tables. ALWAYS have a trained buddy.',
+      },
+      {
+        mistake: 'Rushing rest periods',
+        correction: 'The 2-minute rest is fixed for a reason—full recovery. Use every second.',
+      },
+      {
+        mistake: 'Progressing too quickly',
+        correction: 'Increase max hold by no more than 15 seconds per week. Patience prevents injury.',
+      },
+    ],
+    benefits: [
+      {
+        benefit: 'Increased hypoxic tolerance',
+        explanation: 'Your body learns to function efficiently at lower oxygen levels.',
+      },
+      {
+        benefit: 'Splenic contraction response',
+        explanation: 'Training triggers the spleen to release stored red blood cells during dives.',
+      },
+      {
+        benefit: 'Extended breath-hold time',
+        explanation: 'Directly increases maximum breath-hold duration.',
+      },
+      {
+        benefit: 'Improved oxygen efficiency',
+        explanation: 'Your muscles and brain learn to do more with less oxygen.',
+      },
+    ],
+    progression: 'Start at 50% of your max hold. Increase the final round by 15 seconds per week. Never exceed 85% of your max in training.',
+    expertNote: '"O2 tables are the most advanced dry training tool in freediving. They demand respect, proper supervision, and progressive overload." — Professional freediving coach',
+  },
 }
 
 // ============================================

@@ -28,6 +28,10 @@ const phaseColors: Record<Phase, { bg: string; glow: string }> = {
     bg: 'bg-slate',
     glow: '',
   },
+  rest: {
+    bg: 'bg-cyan-500',
+    glow: 'shadow-glow-cyan',
+  },
 }
 
 const phaseLabels: Record<Phase, string> = {
@@ -35,6 +39,7 @@ const phaseLabels: Record<Phase, string> = {
   hold: 'Hold',
   exhale: 'Out',
   holdAfterExhale: 'Hold',
+  rest: 'Rest',
 }
 
 export function PhaseIndicator({

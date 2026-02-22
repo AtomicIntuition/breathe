@@ -30,6 +30,10 @@ const phaseColors: Record<Phase, { primary: string; glow: string }> = {
     primary: '#A88B32',
     glow: 'rgba(168, 139, 50, 0.5)',
   },
+  rest: {
+    primary: '#06B6D4',
+    glow: 'rgba(6, 182, 212, 0.6)',
+  },
 }
 
 export function BreathingGuideRing({

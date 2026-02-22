@@ -9,9 +9,10 @@ interface TimerProps {
   cycle: number
   totalCycles: number
   quietMode?: boolean
+  cycleLabel?: string
 }
 
-export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false }: TimerProps) {
+export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false, cycleLabel = 'Cycle' }: TimerProps) {
   const remaining = Math.max(0, total - elapsed)
   const progress = total > 0 ? (elapsed / total) * 100 : 0
 
@@ -48,7 +49,7 @@ export function Timer({ elapsed, total, cycle, totalCycles, quietMode = false }:
 
         {/* Cycle indicator - more prominent */}
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-widest mb-1 opacity-60">Cycle</p>
+          <p className="text-[10px] uppercase tracking-widest mb-1 opacity-60">{cycleLabel}</p>
           <div className="flex items-center justify-center gap-1.5">
             <motion.span
               className="font-mono text-xl md:text-2xl text-white font-semibold tabular-nums"

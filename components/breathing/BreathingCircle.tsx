@@ -54,6 +54,13 @@ const phaseColors: Record<Phase, PhaseColorConfig> = {
     particle: 'rgba(203, 213, 225, 0.8)',
     gradient: ['rgba(100, 116, 139, 0.3)', 'rgba(148, 163, 184, 0.15)', 'transparent'],
   },
+  rest: {
+    primary: 'rgba(6, 182, 212, 0.7)',
+    secondary: 'rgba(34, 211, 238, 0.5)',
+    glow: 'rgba(6, 182, 212, 0.25)',
+    particle: 'rgba(103, 232, 249, 0.8)',
+    gradient: ['rgba(6, 182, 212, 0.3)', 'rgba(34, 211, 238, 0.15)', 'transparent'],
+  },
 }
 
 // Technique-specific color themes for personality
@@ -348,6 +355,101 @@ const techniqueThemes: Record<string, Partial<Record<Phase, PhaseColorConfig>>> 
       gradient: ['rgba(71, 85, 105, 0.38)', 'rgba(100, 116, 139, 0.2)', 'transparent'],
     },
   },
+  // Cyan theme - freediving techniques
+  'freedive-breathup': {
+    inhale: {
+      primary: 'rgba(6, 182, 212, 0.8)',
+      secondary: 'rgba(34, 211, 238, 0.6)',
+      glow: 'rgba(6, 182, 212, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(6, 182, 212, 0.4)', 'rgba(34, 211, 238, 0.2)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(8, 145, 178, 0.8)',
+      secondary: 'rgba(6, 182, 212, 0.6)',
+      glow: 'rgba(8, 145, 178, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(8, 145, 178, 0.4)', 'rgba(6, 182, 212, 0.2)', 'transparent'],
+    },
+    exhale: {
+      primary: 'rgba(14, 116, 144, 0.7)',
+      secondary: 'rgba(8, 145, 178, 0.5)',
+      glow: 'rgba(14, 116, 144, 0.3)',
+      particle: 'rgba(103, 232, 249, 0.8)',
+      gradient: ['rgba(14, 116, 144, 0.35)', 'rgba(8, 145, 178, 0.18)', 'transparent'],
+    },
+  },
+  'recovery-hook': {
+    inhale: {
+      primary: 'rgba(6, 182, 212, 0.8)',
+      secondary: 'rgba(34, 211, 238, 0.6)',
+      glow: 'rgba(6, 182, 212, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(6, 182, 212, 0.4)', 'rgba(34, 211, 238, 0.2)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(8, 145, 178, 0.8)',
+      secondary: 'rgba(6, 182, 212, 0.6)',
+      glow: 'rgba(8, 145, 178, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(8, 145, 178, 0.4)', 'rgba(6, 182, 212, 0.2)', 'transparent'],
+    },
+    exhale: {
+      primary: 'rgba(14, 116, 144, 0.7)',
+      secondary: 'rgba(8, 145, 178, 0.5)',
+      glow: 'rgba(14, 116, 144, 0.3)',
+      particle: 'rgba(103, 232, 249, 0.8)',
+      gradient: ['rgba(14, 116, 144, 0.35)', 'rgba(8, 145, 178, 0.18)', 'transparent'],
+    },
+  },
+  'diaphragmatic-freedive': {
+    inhale: {
+      primary: 'rgba(6, 182, 212, 0.8)',
+      secondary: 'rgba(34, 211, 238, 0.6)',
+      glow: 'rgba(6, 182, 212, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(6, 182, 212, 0.4)', 'rgba(34, 211, 238, 0.2)', 'transparent'],
+    },
+    exhale: {
+      primary: 'rgba(14, 116, 144, 0.7)',
+      secondary: 'rgba(8, 145, 178, 0.5)',
+      glow: 'rgba(14, 116, 144, 0.3)',
+      particle: 'rgba(103, 232, 249, 0.8)',
+      gradient: ['rgba(14, 116, 144, 0.35)', 'rgba(8, 145, 178, 0.18)', 'transparent'],
+    },
+  },
+  'co2-table': {
+    rest: {
+      primary: 'rgba(6, 182, 212, 0.7)',
+      secondary: 'rgba(34, 211, 238, 0.5)',
+      glow: 'rgba(6, 182, 212, 0.25)',
+      particle: 'rgba(103, 232, 249, 0.8)',
+      gradient: ['rgba(6, 182, 212, 0.3)', 'rgba(34, 211, 238, 0.15)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(8, 145, 178, 0.8)',
+      secondary: 'rgba(6, 182, 212, 0.6)',
+      glow: 'rgba(8, 145, 178, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(8, 145, 178, 0.4)', 'rgba(6, 182, 212, 0.2)', 'transparent'],
+    },
+  },
+  'o2-table': {
+    rest: {
+      primary: 'rgba(6, 182, 212, 0.7)',
+      secondary: 'rgba(34, 211, 238, 0.5)',
+      glow: 'rgba(6, 182, 212, 0.25)',
+      particle: 'rgba(103, 232, 249, 0.8)',
+      gradient: ['rgba(6, 182, 212, 0.3)', 'rgba(34, 211, 238, 0.15)', 'transparent'],
+    },
+    hold: {
+      primary: 'rgba(8, 145, 178, 0.8)',
+      secondary: 'rgba(6, 182, 212, 0.6)',
+      glow: 'rgba(8, 145, 178, 0.35)',
+      particle: 'rgba(103, 232, 249, 0.9)',
+      gradient: ['rgba(8, 145, 178, 0.4)', 'rgba(6, 182, 212, 0.2)', 'transparent'],
+    },
+  },
 }
 
 function getPhaseColors(techniqueId: string | undefined, phase: Phase): PhaseColorConfig {
@@ -363,9 +465,10 @@ const defaultBodyGuidance: Record<Phase, string> = {
   hold: 'Stay relaxed',
   exhale: 'Slow release',
   holdAfterExhale: 'Empty stillness',
+  rest: 'Breathe naturally',
 }
 
-const techniqueGuidance: Record<string, Record<Phase, string>> = {
+const techniqueGuidance: Record<string, Partial<Record<Phase, string>>> = {
   'box-breathing': {
     inhale: 'Breathe deep',
     hold: 'Hold steady',
@@ -376,35 +479,27 @@ const techniqueGuidance: Record<string, Record<Phase, string>> = {
     inhale: 'Full breath in',
     hold: 'Brief pause',
     exhale: 'Long, slow out',
-    holdAfterExhale: 'Empty stillness',
   },
   'physiological-sigh': {
     inhale: 'Fill your lungs',
-    hold: 'Stay relaxed',
     exhale: 'Let it all go',
-    holdAfterExhale: 'Empty stillness',
   },
   '4-7-8-breathing': {
     inhale: 'Quiet breath in',
     hold: 'Calm stillness',
     exhale: 'Gentle release',
-    holdAfterExhale: 'Empty stillness',
   },
   'energizing-breath': {
     inhale: 'Power in',
-    hold: 'Stay relaxed',
     exhale: 'Let go',
-    holdAfterExhale: 'Empty stillness',
   },
   'gateway-process': {
     inhale: 'Deep resonance',
     hold: 'Hum gently',
     exhale: 'Extended release',
-    holdAfterExhale: 'Empty stillness',
   },
   'operative-calm': {
     inhale: 'Measured intake',
-    hold: 'Stay relaxed',
     exhale: 'Double exhale',
     holdAfterExhale: 'Focus inward',
   },
@@ -414,11 +509,46 @@ const techniqueGuidance: Record<string, Record<Phase, string>> = {
     exhale: 'Controlled release',
     holdAfterExhale: 'Mental anchor',
   },
+  'freedive-breathup': {
+    inhale: 'Full belly breath',
+    hold: 'Soft pause',
+    exhale: 'Long slow release',
+    holdAfterExhale: 'Empty stillness',
+    rest: 'Breathe naturally',
+  },
+  'recovery-hook': {
+    inhale: 'Quick fill',
+    hold: 'Pressurize',
+    exhale: 'Controlled release',
+    holdAfterExhale: 'Empty stillness',
+    rest: 'Breathe naturally',
+  },
+  'diaphragmatic-freedive': {
+    inhale: 'Belly expands',
+    hold: 'Stay relaxed',
+    exhale: 'Fully empty',
+    holdAfterExhale: 'Empty stillness',
+    rest: 'Breathe naturally',
+  },
+  'co2-table': {
+    inhale: 'Fill your belly',
+    hold: 'Stay calm',
+    exhale: 'Slow release',
+    holdAfterExhale: 'Empty stillness',
+    rest: 'Recover & relax',
+  },
+  'o2-table': {
+    inhale: 'Fill your belly',
+    hold: 'Stay calm',
+    exhale: 'Slow release',
+    holdAfterExhale: 'Empty stillness',
+    rest: 'Recover & relax',
+  },
 }
 
 function getBodyGuidance(techniqueId: string | undefined, phase: Phase): string {
-  if (techniqueId && techniqueGuidance[techniqueId]) {
-    return techniqueGuidance[techniqueId][phase]
+  if (techniqueId && techniqueGuidance[techniqueId]?.[phase]) {
+    return techniqueGuidance[techniqueId][phase]!
   }
   return defaultBodyGuidance[phase]
 }
@@ -454,6 +584,7 @@ export function BreathingCircle({
   const isInhale = phase === 'inhale'
   const isExhale = phase === 'exhale'
   const isHold = phase === 'hold' || phase === 'holdAfterExhale'
+  const isRest = phase === 'rest'
 
   // Spring-animated scale for organic motion
   const targetScale = useMemo(() => {
@@ -462,8 +593,9 @@ export function BreathingCircle({
     if (isExhale) return SCALE_MAX - (phaseProgress / 100) * SCALE_RANGE
     if (phase === 'hold') return SCALE_MAX
     if (phase === 'holdAfterExhale') return SCALE_MIN
+    if (isRest) return SCALE_MIN + SCALE_RANGE * 0.5
     return SCALE_MIN + SCALE_RANGE * 0.5
-  }, [isActive, isPaused, isInhale, isExhale, phase, phaseProgress])
+  }, [isActive, isPaused, isInhale, isExhale, isRest, phase, phaseProgress])
 
   const springScale = useSpring(targetScale, breathingSpring)
 

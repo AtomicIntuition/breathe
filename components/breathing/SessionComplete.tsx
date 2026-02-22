@@ -64,7 +64,9 @@ export function SessionComplete({
   }, [])
 
   // Calculate session stats
-  const breathsTaken = cycles * technique.phases.length
+  const breathsTaken = technique.rounds
+    ? technique.rounds.slice(0, cycles).reduce((sum, round) => sum + round.length, 0)
+    : cycles * technique.phases.length
   const avgBreathDuration = duration / breathsTaken
 
   // Share functionality

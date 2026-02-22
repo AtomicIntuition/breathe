@@ -40,7 +40,10 @@ export default function TechniquePage() {
     resume,
     stop,
     isComplete,
+    activePhases,
   } = useBreathingSession(technique!, cycles)
+
+  const isTableTechnique = !!technique?.rounds
 
   useEffect(() => {
     if (technique) {
@@ -132,7 +135,7 @@ export default function TechniquePage() {
 
                 <motion.div className="mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <PhaseIndicator
-                    phases={technique.phases}
+                    phases={activePhases}
                     currentPhaseIndex={state.currentPhaseIndex}
                     isActive={state.isActive}
                     phaseProgress={phaseProgress}
@@ -145,6 +148,7 @@ export default function TechniquePage() {
                     total={totalDuration}
                     cycle={state.currentCycle}
                     totalCycles={cycles}
+                    cycleLabel={isTableTechnique ? 'Round' : 'Cycle'}
                   />
                 </motion.div>
 
@@ -223,24 +227,31 @@ export default function TechniquePage() {
               <h3 className="font-semibold mb-5 text-lg">Settings</h3>
 
               <div className="space-y-5">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-light">Cycles</span>
-                  <div className="flex items-center gap-4">
-                    <button
-                      className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center hover:bg-white/10 transition-colors touch-target"
-                      onClick={() => setCycles(Math.max(1, cycles - 1))}
-                    >
-                      -
-                    </button>
-                    <span className="font-mono w-8 text-center text-xl">{cycles}</span>
-                    <button
-                      className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center hover:bg-white/10 transition-colors touch-target"
-                      onClick={() => setCycles(Math.min(20, cycles + 1))}
-                    >
-                      +
-                    </button>
+                {isTableTechnique ? (
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-light">Rounds</span>
+                    <span className="font-mono text-xl text-white">{cycles} (fixed)</span>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-light">Cycles</span>
+                    <div className="flex items-center gap-4">
+                      <button
+                        className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center hover:bg-white/10 transition-colors touch-target"
+                        onClick={() => setCycles(Math.max(1, cycles - 1))}
+                      >
+                        -
+                      </button>
+                      <span className="font-mono w-8 text-center text-xl">{cycles}</span>
+                      <button
+                        className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center hover:bg-white/10 transition-colors touch-target"
+                        onClick={() => setCycles(Math.min(20, cycles + 1))}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex items-center justify-between">
                   <span className="text-slate-light">Sound</span>
