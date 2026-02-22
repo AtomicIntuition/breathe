@@ -500,6 +500,41 @@ export function getTechniquesByCategory(category: BreathingTechnique['category']
   return techniques.filter((t) => t.category === category)
 }
 
+export function generateCO2Table(holdSeconds: number): BreathingPhase[][] {
+  const rounds: BreathingPhase[][] = []
+  const restStart = holdSeconds
+  const restEnd = 15
+  const decrement = (restStart - restEnd) / 7
+  for (let i = 0; i < 8; i++) {
+    const rest = Math.round(restStart - decrement * i)
+    rounds.push([
+      { phase: 'rest', duration: Math.max(15, rest), instruction: 'Breathe Normally' },
+      { phase: 'hold', duration: holdSeconds, instruction: 'Hold Breath' },
+    ])
+  }
+  return rounds
+}
+
+export function generateO2Table(maxHoldSeconds: number): BreathingPhase[][] {
+  const rounds: BreathingPhase[][] = []
+  const increment = 15
+  const startHold = Math.max(15, maxHoldSeconds - increment * 7)
+  for (let i = 0; i < 8; i++) {
+    const hold = startHold + increment * i
+    rounds.push([
+      { phase: 'rest', duration: 120, instruction: 'Breathe Normally' },
+      { phase: 'hold', duration: Math.min(hold, maxHoldSeconds), instruction: 'Hold Breath' },
+    ])
+  }
+  return rounds
+}
+
+export function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60)
+  const s = seconds % 60
+  return `${m}:${s.toString().padStart(2, '0')}`
+}
+
 export function getPhasesForRound(technique: BreathingTechnique, round: number): BreathingPhase[] {
   if (technique.rounds && technique.rounds[round]) {
     return technique.rounds[round]

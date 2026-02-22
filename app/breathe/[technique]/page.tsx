@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -13,7 +13,7 @@ import { SessionComplete } from '@/components/breathing/SessionComplete'
 import { TechniqueGuide } from '@/components/breathing/TechniqueGuide'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
-import { getTechniqueById, calculateSessionDuration } from '@/lib/techniques'
+import { getTechniqueById, calculateSessionDuration, generateCO2Table, generateO2Table, formatTime } from '@/lib/techniques'
 import { useBreathingSession } from '@/hooks/useBreathingSession'
 import { useStore } from '@/store/useStore'
 import { addSessionRecord, updateStreak, setLastTechnique } from '@/lib/storage'
@@ -27,7 +27,19 @@ export default function TechniquePage() {
 
   const [cycles, setCycles] = useState(5)
   const [showSettings, setShowSettings] = useState(false)
+  const [customHoldTime, setCustomHoldTime] = useState<number | null>(null)
   const { soundEnabled, setSoundEnabled, hapticEnabled, setHapticEnabled } = useStore()
+
+  const isTableTechnique = !!technique?.rounds
+
+  // Derive technique with custom rounds when user adjusts hold time
+  const activeTechnique = useMemo(() => {
+    if (!technique || !isTableTechnique || customHoldTime === null) return technique!
+    const customRounds = technique.id === 'co2-table'
+      ? generateCO2Table(customHoldTime)
+      : generateO2Table(customHoldTime)
+    return { ...technique, rounds: customRounds }
+  }, [technique, isTableTechnique, customHoldTime])
 
   const {
     state,
@@ -41,9 +53,7 @@ export default function TechniquePage() {
     stop,
     isComplete,
     activePhases,
-  } = useBreathingSession(technique!, cycles)
-
-  const isTableTechnique = !!technique?.rounds
+  } = useBreathingSession(activeTechnique, cycles)
 
   useEffect(() => {
     if (technique) {
@@ -71,7 +81,7 @@ export default function TechniquePage() {
 
   useEffect(() => {
     if (isComplete && technique) {
-      const duration = calculateSessionDuration(technique, cycles)
+      const duration = calculateSessionDuration(activeTechnique, cycles)
       addSessionRecord({
         techniqueId: technique.id,
         cycles,
@@ -81,7 +91,7 @@ export default function TechniquePage() {
       updateStreak()
       setLastTechnique(technique.id)
     }
-  }, [isComplete, technique, cycles])
+  }, [isComplete, technique, activeTechnique, cycles])
 
   if (!technique) {
     return (
@@ -96,7 +106,7 @@ export default function TechniquePage() {
     )
   }
 
-  const totalDuration = calculateSessionDuration(technique, cycles)
+  const totalDuration = calculateSessionDuration(activeTechnique, cycles)
   const themeClass = `theme-${technique.id}`
 
   // During active session, use fixed centered layout
@@ -108,7 +118,7 @@ export default function TechniquePage() {
             {isComplete ? (
               <SessionComplete
                 key="complete"
-                technique={technique}
+                technique={activeTechnique}
                 cycles={cycles}
                 duration={state.totalTimeElapsed}
                 onRestart={start}
@@ -228,10 +238,45 @@ export default function TechniquePage() {
 
               <div className="space-y-5">
                 {isTableTechnique ? (
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-light">Rounds</span>
-                    <span className="font-mono text-xl text-white">{cycles} (fixed)</span>
-                  </div>
+                  <>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-light">Rounds</span>
+                      <span className="font-mono text-xl text-white">8</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-light">
+                        {technique.id === 'co2-table' ? 'Hold Time' : 'Max Hold'}
+                      </span>
+                      <div className="flex items-center gap-4">
+                        <button
+                          className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center hover:bg-white/10 transition-colors touch-target"
+                          onClick={() => {
+                            const current = customHoldTime ?? (technique.id === 'co2-table' ? 120 : 165)
+                            setCustomHoldTime(Math.max(30, current - 15))
+                          }}
+                        >
+                          -
+                        </button>
+                        <span className="font-mono w-12 text-center text-xl text-white">
+                          {formatTime(customHoldTime ?? (technique.id === 'co2-table' ? 120 : 165))}
+                        </span>
+                        <button
+                          className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center hover:bg-white/10 transition-colors touch-target"
+                          onClick={() => {
+                            const current = customHoldTime ?? (technique.id === 'co2-table' ? 120 : 165)
+                            setCustomHoldTime(Math.min(300, current + 15))
+                          }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate">
+                      {technique.id === 'co2-table'
+                        ? 'Hold stays fixed each round. Rest decreases from ' + formatTime(customHoldTime ?? 120) + ' to 0:15.'
+                        : 'Rest stays at 2:00. Hold increases to ' + formatTime(customHoldTime ?? 165) + '.'}
+                    </p>
+                  </>
                 ) : (
                   <div className="flex items-center justify-between">
                     <span className="text-slate-light">Cycles</span>
