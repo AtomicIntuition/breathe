@@ -17,6 +17,8 @@ import { getTechniqueById, calculateSessionDuration, generateCO2Table, generateO
 import { useBreathingSession } from '@/hooks/useBreathingSession'
 import { useStore } from '@/store/useStore'
 import { addSessionRecord, updateStreak, setLastTechnique } from '@/lib/storage'
+import { HeartRateMonitor } from '@/components/breathing/HeartRateMonitor'
+import { useHeartRate } from '@/hooks/useHeartRate'
 import { forceUnlock } from '@/lib/sounds'
 
 export default function TechniquePage() {
@@ -29,6 +31,8 @@ export default function TechniquePage() {
   const [showSettings, setShowSettings] = useState(false)
   const [customHoldTime, setCustomHoldTime] = useState<number | null>(null)
   const { soundEnabled, setSoundEnabled, hapticEnabled, setHapticEnabled } = useStore()
+
+  const hr = useHeartRate()
 
   const isTableTechnique = !!technique?.rounds
 
@@ -161,6 +165,12 @@ export default function TechniquePage() {
                     cycleLabel={isTableTechnique ? 'Round' : 'Cycle'}
                   />
                 </motion.div>
+
+                {hr.isReading && (
+                  <motion.div className="mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <HeartRateMonitor {...hr} onStart={hr.start} onStop={hr.stop} compact />
+                  </motion.div>
+                )}
 
                 <Controls
                   isActive={state.isActive}
@@ -354,6 +364,11 @@ export default function TechniquePage() {
               instruction={currentInstruction}
               techniqueId={technique.id}
             />
+          </div>
+
+          {/* Heart Rate Monitor */}
+          <div className="mb-8">
+            <HeartRateMonitor {...hr} onStart={hr.start} onStop={hr.stop} />
           </div>
 
           {/* Start button */}
